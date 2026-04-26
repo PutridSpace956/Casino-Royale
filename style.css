@@ -26,7 +26,7 @@ html, body {
   align-items: center;
   position: relative;
   box-sizing: border-box;
-}
+
 
 /* --- HEADER (HERO) --- */
 header {
@@ -79,7 +79,7 @@ h1 {
 }
 
 .explicacion p {
-  font-size: 1.6rem; /* Texto explicativo más grande */
+  font-size: 2rem; /* Texto explicativo más grande */
   margin: 10px;
   color: #ffd700;
   text-shadow: 1px 1px 2px black;
@@ -91,15 +91,17 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 30px;
-  width: 90%;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .juego {
   position: relative;
-  width: 400px;  /* Ancho base */
-  height: 400px; /* Alto base */
+  width: 300px;  /* Tamaño aumentado */
+  height: 300px; /* Tamaño aumentado */
   border: 3px solid #ddc439;
   border-radius: 20px;
   display: flex;
@@ -125,7 +127,7 @@ h1 {
 .juego h2 {
   position: relative;
   z-index: 2;
-  font-size: 2.5rem; /* Títulos de juegos grandes */
+  font-size: 2rem; /* Título aumentado */
   color: white;
   text-shadow: 0 0 10px #000;
   text-transform: uppercase;
@@ -152,9 +154,10 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   gap: 25vh;              /* 🔥 ESPACIO ENTRE BLOQUES */
-  padding: 150px 0;        /* 🔥 AIRE ARRIBA Y ABAJO */
+  padding: 0;             /* 🔥 SIN PADDING */
 
   text-align: center;
   color: rgba(255,255,255,0.6);
