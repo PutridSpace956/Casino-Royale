@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro - Royal Casino</title>
+    <link rel="stylesheet" href="inicioS.css">
+    <link rel="icon" href="../../img/jons_img1.png">
+</head>
+<body>
+    <header>
+        <div class="titulo">
+            <div class="Logo"><img src="../../img/Escudo.png" alt="escudo"></div>
+            <div class="Titulo">
+                <h1>Royal Casino</h1>
+                <div class="Subtitulo"><h2>Crear tu cuenta</h2></div>
+            </div>
+            <button id="volver" onclick="window.location.href='../../Index.html#main-content'">← Página principal</button>
+        </div>
+    </header>
+    
+    <main>
+
+<div class="preguntas">
+  <form class="formulario" id="formulario-casino">
+    
+    <div class="grupo-form">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+      <div class="mensaje-error" id="error-nombre"></div>
+    </div>
+    
+    <button type="submit" class="btn-cambiar" id="btn-cambiar" onclick="location.href='../registrarse/formulario.html'">Crear cuenta</button>
+    <button type="submit" class="btn-enviar" id="btn-enviar">Enviar</button>
+    
+  </form>
+</div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Todos los derechos reservados.</p>
+        <p>Juega con responsabilidad.</p>
+    </footer>
+
+    <script src="inicioS.js"></script>
+</body>
+</html>

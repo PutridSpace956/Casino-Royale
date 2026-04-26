@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones - Royal Casino</title>
+    <link rel="stylesheet" href="terminos.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+    <style>
+        /* Estilos específicos para cuando se abre como ventana popup */
+        body.popup-version {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a2e0a 0%, #026902 100%);
+            min-height: 100vh;
+        }
+        
+        /* Ocultar botón de cerrar si no estamos en popup */
+        .cerrar-externo {
+            display: none;
+        }
+    </style>
+</head>
+<body class="popup-version">
+    <div class="popup-contenido" id="contenido-terminos">
+        
+        <div class="popup-header">
+            <h2>Términos y Condiciones</h2>
+            <button class="popup-cerrar cerrar-externo" id="cerrar-externo" onclick="location.href='../formulario/registrarse/formulario.html'">&times;</button>
+        </div>
+        
+        <div class="popup-body">
+            <h3>Condiciones de Uso de Royal Casino</h3>
+            
+            <h4>1. Aceptación de Términos</h4>
+            <p>Al acceder y utilizar nuestros servicios, aceptas cumplir con estos términos y condiciones en su totalidad.</p>
+            
+            <h4>2. Requisitos de Edad</h4>
+            <p>Debes ser mayor de 18 años para registrarte y participar en nuestros juegos.</p>
+            
+            <h4>3. Responsabilidad del Usuario</h4>
+            <p>Eres responsable de mantener la confidencialidad de tu cuenta y contraseña.</p>
+            
+            <h4>4. Juego Responsable</h4>
+            <p>Promovemos el juego responsable. Si crees que tienes un problema con el juego, busca ayuda profesional.</p>
+            
+            <h4>5. Privacidad</h4>
+            <p>Tus datos personales serán tratados conforme a nuestra Política de Privacidad y la legislación vigente.</p>
+            
+            <h4>6. Limitación de Responsabilidad</h4>
+            <p>Royal Casino no se hace responsable por pérdidas derivadas del uso de nuestros servicios.</p>
+            
+            <h4>7. Modificaciones</h4>
+            <p>Nos reservamos el derecho de modificar estos términos en cualquier momento.</p>
+            
+            <h4>8. Jurisdicción</h4>
+            <p>Cualquier disputa se resolverá conforme a las leyes de España.</p>
+            
+            <div class="popup-fecha">
+                <p><strong>Última actualización:</strong> Enero 2025</p>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <script>
+        // Función para comunicarse con la ventana principal
+        function aceptarTerminosDesdePopup() {
+            try {
+                // Intenta comunicar con la ventana padre (formulario)
+                if (window.opener && !window.opener.closed) {
+                    window.opener.document.getElementById('terminos').checked = true;
+                    window.opener.document.getElementById('error-terminos').style.display = 'none';
+                    
+                    // Opcional: Notificar al usuario en la ventana principal
+                    window.opener.mostrarNotificacion('Términos aceptados correctamente');
+                }
+                window.close();
+            } catch (e) {
+                // Si falla la comunicación, solo cierra la ventana
+                window.close();
+            }
+        }
+
+        // Cerrar con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.close();
+            }
+        });
+
+        // Autoajustar altura si es necesario
+        window.onload = function() {
+            document.body.style.height = document.getElementById('contenido-terminos').scrollHeight + 'px';
+        };
+    </script>
+</body>
+</html>

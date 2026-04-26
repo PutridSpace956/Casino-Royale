@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+        <div class="titulo">
+            <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+            <div class="Titulo"><h1>Royal Casino</h1></div>
+            <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+        </div>
+  </header>
+
+
+  <!-- 🎵 Música de fondo -->
+  <audio id="bg-music" src="audio/musicafondo.mp3" loop></audio>
+  <button id="toggle-music">🔊 Música</button>
+  <button id="volver" onclick="window.location.href='../../Index.html#main-content'">← Página principal</button>
+  <div class="aside">
+    <div class="instrucciones">
+      <p>Instrucciones</p>
+      <ul>
+        <li><p>Selecciones la cantidad de fichas <br> que quiere jugar y apuestelas</p></li>
+        <li><p>Si quiere jugar una carta, pulse el boton de pedir</p></li>
+        <li><p>En caso contrario, pulse el boton de quedarse</p></li>
+      </ul>
+    </div>
+
+    <div class="reglas">
+      <p>Reglas</p>
+      <ul>
+        <li>
+          <p>En el Blackjack, el objetivo es conseguir <br> 
+            que la suma de las cartas <br>
+          sea mayor a las del dealer, sin pasarse en todo rato de 21</p>
+        </li>
+        <li><p>Las figuras tienen valor de 10 <br> y los ases pueden valer tanto 1 como 11</p></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table">
+    <div id="dealer-area">
+      <h2>Dealer: <span id="dealer-sum">?</span></h2>
+      <div id="dealer-cards" class="cards"></div>
+    </div>
+
+<div id="player-area">
+  <h2>Jugador: <span id="player-sum">0</span></h2>
+  <div id="player-cards" class="cards"></div>
+  
+  <div id="split-hands">
+    <div id="hand1" class="hand">
+      <h3>Mano 1: <span id="player-sum1">0</span></h3>
+      <div id="player-cards1" class="cards"></div>
+    </div>
+
+    <div id="hand2" class="hand">
+      <h3>Mano 2: <span id="player-sum2">0</span></h3>
+      <div id="player-cards2" class="cards"></div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bet-container">
+    <p>Fichas: <span id="chips">500</span></p>
+    <label for="bet-amount">Apuesta:</label>
+    <input type="number" id="bet-amount" min="10" step="10" value="50">
+    <button id="Apostar">Apostar</button>
+    <p id="Resultado"></p>
+  </div>
+
+  <div class="buttons">
+    <button id="Doblar" disabled>Doblar</button>
+    <button id="Pedir" disabled>Pedir</button>
+    <button id="Separar">Separar</button>
+    <button id="Quedarse" disabled>Quedarse</button>
+  </div>
+
+</body>
+</html>
+
+

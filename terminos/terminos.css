@@ -1,0 +1,158 @@
+/* ====== ESTILOS PARA EL ARCHIVO POPUP SEPARADO ====== */
+
+/* Reset para el popup */
+body.popup-version {
+    margin: 0;
+    margin-top: 15vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #0a2e0a 0%, #026902 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenido del popup */
+.popup-contenido {
+    background: linear-gradient(135deg, #0a2e0a 0%, #026902 100%);
+    width: 100%;
+    max-width: 800px;
+    border-radius: 15px;
+    border: 2px solid rgba(221, 196, 57, 0.7);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(221, 196, 57, 0.3);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Header del popup */
+.popup-header {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    border-bottom: 2px solid rgba(221, 196, 57, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.popup-header h2 {
+    color: rgba(221, 196, 57, 0.95);
+    margin: 0;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(221, 196, 57, 0.5);
+}
+
+/* Botón de cerrar (visible solo en versión popup) */
+.popup-cerrar.cerrar-externo {
+    display: block !important;
+    background: none;
+    border: none;
+    color: rgba(221, 196, 57, 0.95);
+    font-size: 2.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.popup-cerrar.cerrar-externo:hover {
+    background-color: rgba(221, 196, 57, 0.2);
+    transform: scale(1.1);
+}
+
+/* Cuerpo del popup */
+.popup-body {
+    padding: 25px 30px;
+    color: #e0e0e0;
+    line-height: 1.6;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.popup-body h3 {
+    color: rgba(221, 196, 57, 0.95);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.popup-body h4 {
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    border-left: 4px solid rgba(221, 196, 57, 0.7);
+    padding-left: 10px;
+}
+
+.popup-body p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.popup-fecha {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(221, 196, 57, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Footer del popup */
+.popup-footer {
+    padding: 20px 30px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 2px solid rgba(221, 196, 57, 0.5);
+    text-align: center;
+}
+
+/* Botón de aceptar */
+.btn-aceptar-terminos {
+    background-color: rgba(221, 196, 57, 0.95);
+    color: #004400;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-aceptar-terminos:hover {
+    background-color: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-aceptar-terminos:active {
+    transform: translateY(0);
+}
+
+/* Scrollbar personalizada */
+.popup-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.popup-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+    background: rgba(221, 196, 57, 0.5);
+    border-radius: 4px;
+}
+
+.popup-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(221, 196, 57, 0.7);
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/jons_img1.png">
+</head>
+<body>
+    <div class="section" id="hero">
+        <header>
+            <div class="titulo-escudos">
+                <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+                <div class="Titulo"><h1>Royal Casino</h1></div>
+                <div class="Logo"><a href="formulario/iniciar_sesion/inicioS.html"><img src="img/usuario.png" alt="usuario" class="usuario"></a> </div>
+            </div>
+            <div class="carrusel">
+                <marquee behavior="scroll" direction="left" scrollamount="30" id="marquee1">¡Bienvenido a Royal Casino! Descubre nuestros juegos exclusivos.</marquee>
+            </div>
+        </header>
+    </div>
+
+    <div class="section" id="main-content">
+        <main>
+            <section class="explicacion">
+                <p>La experiencia definitiva de azar online.</p>
+                <p>Gráficos envolventes, premios reales.</p>
+            </section>
+            <section class="juegos">
+                <div class="juego tragaperras" onclick="location.href='juegos/tragaperras/index.html'">
+                    <h2>Tragaperras</h2>
+                </div>
+                <div class="juego blackjack" onclick="location.href='juegos/blackjack/index.html'">
+                    <h2>Blackjack</h2>
+                </div>
+                <div class="juego ruleta" onclick="location.href='juegos/ruleta/index.html'">
+                    <h2>Ruleta</h2>
+                </div>
+                <div class="juego caballos" onclick="location.href='juegos/caballos/caballos.html'">
+                    <h2>Caballos</h2>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="section" id="footer">
+        <footer>
+            <div class="footer-content">
+              <h1>Royal Casino</h1>
+              <div class="carousel-wrapper">
+                  <button class="prev">‹</button>
+                  <div class="carousel">
+                    <div class="slide active">
+                      <div class="content">
+                        <h2>PROMOCIONES</h2>
+                        <p>
+                          Grandes descuentos <br>para socios del casino
+                        </p>
+                        <button>JUEGA ONLINE</button>
+                      </div>
+                      <img src="img/logo.png" alt="Promo 1">
+                    </div>
+
+                    <div class="slide">
+                      <div class="content">
+                        <h2>BONUS DE BIENVENIDA</h2>
+                        <p>
+                          Consigue tu bono de bienvenida y <br>empieza a jugar hoy mismo con increíbles recompensas.
+                        </p>
+                        <button onclick="location.href='formulario/formulario.html'">CONSIGUE BONUS</button>
+                      </div>
+                      <img src="img/jons_img1.png" alt="Promo 2">
+                    </div>
+
+                    <div class="slide">
+                      <div class="content">
+                        <h2>NUEVOS JUEGOS</h2>
+                        <p>
+                          Descubre los juegos más nuevos y <br>disfruta de la mejor experiencia de juego.
+                        </p>
+                        <button onclick="window.location.href='#main-content'">DESCUBRE</button>
+                      </div>
+                      <img src="img/imag.jpg" alt="Promo 3">
+                    </div>
+
+
+                </div>
+                <button class="next">›</button>
+              </div>
+              <div class="copy">
+                <p>&copy; 2025 Todos los derechos reservados.</p>
+                <p>Juega con responsabilidad.</p>
+              </div>
+
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

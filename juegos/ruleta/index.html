@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ruleta Casino</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+    <h1>Ruleta</h1>
+    <div class="Opciones"><img src="img/Escudo.png" alt="opciones"></div>
+  </header>
+
+  <!-- Música y sonidos -->
+  <audio id="bg-music" src="./audio/musicafondo.mp3" loop></audio>
+  <audio id="ball-sound" src="./audio/ball.mp3" preload="auto"></audio>
+  <button id="toggle-music">🔊 Música</button>
+  <button id="volver" onclick="window.location.href='../../Index.html#main-content'">← Página principal</button>
+
+  <!-- Panel lateral izquierdo -->
+  <div id="info-apuestas">
+    <p><b>Fichas disponibles:</b> <span id="fichas-disponibles">500</span></p>
+    <p><b>Apuesta actual:</b> <span id="apuesta-actual">1</span></p>
+    <input id="barra-apuesta" type="range" min="1" max="500" value="1" />
+    <button id="eliminar-fichas">Eliminar fichas</button>
+    <div id="resultado-ruleta"><b>Número ganador:</b> —</div>
+      <button id="repetir-apuesta">Repetir apuesta</button>
+  </div>
+
+  <!-- ✅ Nuevo botón de repetir apuesta -->
+
+
+  <!-- Contenedor ruleta con botón a la derecha -->
+  <div class="ruleta-contenedor">
+    <img id="ruleta" src="img/ruleta.png" alt="Ruleta" />
+    <div class="controls-ruleta">
+      <button id="girar-ruleta">🎯 Girar ruleta</button>
+    </div>
+  </div>
+
+  <!-- Mesa de apuestas (tabla completa restaurada) -->
+  <table class="conjunto" id="mesa">
+    <tr>
+      <td rowspan="3" class="cero" data-bet="0">0</td>
+      <td data-bet="3">3</td><td data-bet="6">6</td><td data-bet="9">9</td><td data-bet="12">12</td><td data-bet="15">15</td><td data-bet="18">18</td><td data-bet="21">21</td><td data-bet="24">24</td><td data-bet="27">27</td><td data-bet="30">30</td><td data-bet="33">33</td><td data-bet="36">36</td>
+      <td class="to" data-bet="2TO1-1">2to1</td>
+    </tr>
+    <tr>
+      <td data-bet="2">2</td><td data-bet="5">5</td><td data-bet="8">8</td><td data-bet="11">11</td><td data-bet="14">14</td><td data-bet="17">17</td><td data-bet="20">20</td><td data-bet="23">23</td><td data-bet="26">26</td><td data-bet="29">29</td><td data-bet="32">32</td><td data-bet="35">35</td>
+      <td class="to" data-bet="2TO1-2">2to1</td>
+    </tr>
+    <tr>
+      <td data-bet="1">1</td><td data-bet="4">4</td><td data-bet="7">7</td><td data-bet="10">10</td><td data-bet="13">13</td><td data-bet="16">16</td><td data-bet="19">19</td><td data-bet="22">22</td><td data-bet="25">25</td><td data-bet="28">28</td><td data-bet="31">31</td><td data-bet="34">34</td>
+      <td class="to" data-bet="2TO1-3">2to1</td>
+    </tr>
+
+    <tr>
+      <td class="vacio"></td>
+      <td colspan="4" data-bet="1ST-12">1st 12</td>
+      <td colspan="4" data-bet="2ND-12">2nd 12</td>
+      <td colspan="4" data-bet="3RD-12">3rd 12</td>
+    </tr>
+
+    <tr>
+      <td class="vacio"></td>
+      <td colspan="2" data-bet="1-18">1 to 18</td>
+      <td colspan="2" data-bet="EVEN">EVEN</td>
+      <td colspan="2" data-bet="RED">RED</td>
+      <td colspan="2" data-bet="BLACK">BLACK</td>
+      <td colspan="2" data-bet="ODD">ODD</td>
+      <td colspan="2" data-bet="19-36">19 to 36</td>
+    </tr>
+  </table>
+</body>
+</html>
+
+

@@ -1,0 +1,416 @@
+/* ====== RESET Y FONDO ====== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #004400;
+  color: white;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====== HEADER ====== */
+header{
+  margin: 0;
+  padding: 12px 0;
+  font-size: 1rem;
+  background-color: #141414;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: rgba(221, 196, 57, 0.95);
+  animation: pulseGlow 2.5s infinite;
+  text-shadow:
+    0 0 5px rgba(221, 196, 57, 0.8),
+    0 0 10px rgba(221, 196, 57, 0.6),
+    0 0 20px rgba(221, 196, 57, 0.4);
+}
+header > div > img {
+  height: 125px;
+  width: auto;
+}
+
+/* ====== MAIN CENTRADO ====== */
+main.slot {
+  margin-top: 5%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+#toggle-music {
+  position: fixed;
+  top: 175px;
+  right: 15px;
+  background-color: rgba(43, 43, 43, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1200;
+  transition: 0.2s;
+}
+#toggle-music:hover { transform: scale(1.05); }
+
+#volver{
+  position: fixed;
+  top: 250px;
+  right: 15px;
+  background-color: rgba(43, 43, 43, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1200;
+  transition: 0.2s;
+}
+
+/* ====== REELS Y PALANCA ====== */
+.slot__reels {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reel {
+  width: 18vw;
+  height: 35vh;
+  border: 7.5px solid black;
+  border-radius: 10px;
+  background: #141a2a;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Contenedor desplazable */
+.symbols {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Cada símbolo */
+.symbol {
+  height: 35vh;
+  width: 100%;
+  font-size: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+aside{
+  position: fixed;
+  bottom: 25vh;
+  padding: 15px;
+  width: 10%;
+  left: 15px;
+  text-align: left;
+  border: rgba(221, 196, 57, 0.9) solid 3px;
+  background-color: #141414;
+  border-radius: 5px;
+}
+
+/* ====== PALANCA ====== */
+.lever-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 35vh;
+}
+
+.lever {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.lever-stick {
+  width: 2vw;
+  height: 15vh;
+  background: linear-gradient(to bottom, #ccc, #888);
+  border-radius: 10px;
+}
+
+.lever-ball {
+  width: 5vh;
+  height: 5vh;
+  background: red;
+  border-radius: 50%;
+  margin-bottom: -1vh;
+  box-shadow: 0 0 10px #000;
+  transition: transform 0.3s ease;
+}
+
+.lever.active .lever-ball {
+  transform: translateY(3vh); /* baja la bola */
+}
+
+/* ====== ANIMACIÓN DE TEXTO ====== */
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 5px rgba(221, 196, 57, 0.8),
+      0 0 10px rgba(221, 196, 57, 0.6),
+      0 0 20px rgba(221, 196, 57, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(221, 196, 57, 1),
+      0 0 20px rgba(221, 196, 57, 0.8),
+      0 0 30px rgba(221, 196, 57, 0.6);
+  }
+}
+
+.mensaje-premio {
+  margin-top: 5rem;
+  font-size: 1.5em;
+  text-align: center;
+  color: gold;
+  font-weight: bold;
+}
+
+#apuesta-container {
+  margin-top: 1rem;
+}
+
+#apuesta-valor {
+  text-align: left;
+  width: 100px;
+  padding: 1rem;
+  margin-right: 5px;
+}
+
+/* ============================= */
+/* ====== RESPONSIVE SLOT ====== */
+/* ============================= */
+
+/* ----------- TABLET ----------- */
+@media (max-width: 1200px) {
+
+  header {
+    padding: 10px 0;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  header > div > img {
+    height: 110px;
+  }
+
+  .slot__reels {
+    gap: 15px;
+  }
+
+  .reel {
+    width: 22vw;
+    height: 32vh;
+    border-width: 6px;
+  }
+
+  .symbol {
+    font-size: 7vh;
+    height: 32vh;
+  }
+
+  .lever-stick {
+    width: 3vw;
+    height: 14vh;
+  }
+
+  .lever-ball {
+    width: 4.5vh;
+    height: 4.5vh;
+  }
+
+  aside {
+    width: 12%;
+    left: 10px;
+    bottom: 20vh;
+  }
+
+  #toggle-music, #volver {
+    top: 150px;
+    right: 12px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* ----------- MOBILE ----------- */
+/* ============================= */
+/* ====== RESPONSIVE SLOT ====== */
+/* ============================= */
+
+/* ----------- MOBILE (Reels en fila + palanca derecha) ----------- */
+@media (max-width: 768px) {
+
+  html, body {
+    overflow-x: hidden;
+  }
+
+  header {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header > div > img {
+    height: 90px;
+  }
+
+  main.slot {
+    margin-top: 2%;
+    padding: 10px;
+    position: relative;
+  }
+
+  /* REELS en fila (no en columna) */
+  .slot__reels {
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;      /* permite que no se rompa en pantallas pequeñas */
+    padding-bottom: 10px;
+  }
+
+  .reel {
+    width: 26vw;           /* más pequeño para caber en fila */
+    height: 30vh;
+    border-width: 6px;
+    min-width: 140px;
+  }
+
+  .symbol {
+    height: 30vh;
+    font-size: 5.5vh;
+  }
+
+  /* PALANCA a la derecha */
+  .lever-container {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    gap: 15px;
+  }
+
+  .lever-stick {
+    width: 6vw;
+    height: 12vh;
+  }
+
+  .lever-ball {
+    width: 5vh;
+    height: 5vh;
+  }
+
+  aside {
+    position: static;
+    width: 90%;
+    margin: 20px auto 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  #toggle-music, #volver {
+    position: fixed;
+    top: auto;
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  #volver {
+    bottom: 70px;
+  }
+
+  .mensaje-premio {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+  }
+
+  #apuesta-valor {
+    width: 80px;
+    padding: 0.8rem;
+  }
+}
+
+
+
+/* ----------- SMALL MOBILE ----------- */
+@media (max-width: 480px) {
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .reel {
+    height: 25vh;
+  }
+
+  .symbol {
+    height: 25vh;
+    font-size: 5.5vh;
+  }
+
+  .lever-stick {
+    width: 7vw;
+    height: 11vh;
+  }
+
+  .lever-ball {
+    width: 4.5vh;
+    height: 4.5vh;
+  }
+
+  #toggle-music, #volver {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  aside {
+    width: 95%;
+  }
+}

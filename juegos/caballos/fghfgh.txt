@@ -1,0 +1,54 @@
+<?php
+// Modelo
+class Evento {
+    public $nombre;
+    public $fecha;
+    public $ubicacion;
+    public $deportes;
+
+    public function __construct($nombre, $fecha, $ubicacion, $deportes) {
+        $this->nombre = htmlspecialchars($nombre);
+        $this->fecha = $fecha;
+        $this->ubicacion = htmlspecialchars($ubicacion);
+        $this->deportes = $deportes;
+    }
+}
+
+// Controlador
+class EventoController {
+    private $errores = [];
+    private $evento;
+
+    public function manejarFormulario($post) {
+        if(empty($post['nombreEvento'])) $this->errores[] = "El nombre es obligatorio.";
+        if(empty($post['fechaEvento'])) $this->errores[] = "La fecha es obligatoria.";
+        if(empty($post['ubicacionEvento'])) $this->errores[] = "La ubicación es obligatoria.";
+        if(empty($post['deportes'])) $this->errores[] = "Debe seleccionar al menos un deporte.";
+
+        if(empty($this->errores)) {
+            $this->evento = new Evento(
+                $post['nombreEvento'],
+                $post['fechaEvento'],
+                $post['ubicacionEvento'],
+                $post['deportes']
+            );
+        }
+    }
+
+    public function getErrores() { return $this->errores; }
+    public function getEvento() { return $this->evento; }
+}
+
+// Vista
+class EventoVista {
+    public static function mostrarFicha(Evento $evento) {
+        echo "<h3>Ficha del Evento Deportivo</h3>";
+        echo "<table border='1'>";
+        echo "<tr><td>Nombre</td><td>{$evento->nombre}</td></tr>";
+        echo "<tr><td>Fecha</td><td>{$evento->fecha}</td></tr>";
+        echo "<tr><td>Ubicación</td><td>{$evento->ubicacion}</td></tr>";
+        echo "<tr><td>Deportes</td><td>" . implode(", ", $evento->deportes) . "</td></tr>";
+        echo "</table>";
+    }
+}
+?>

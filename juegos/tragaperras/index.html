@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tragaperras</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>    
+    <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+    <h1>🎰 Tragaperras</h1>
+    <div class="Logo"><img src="img/Escudo.png" alt="escudo"></div>
+  </header>
+
+  <main class="slot">
+    <audio id="bg-music" src="audio/musicafondo.mp3" loop></audio>
+    <audio id="sonido-palanca" src="./audio/palanca.mp3"></audio>
+    <audio id="sonido-premio" src="./audio/premio.mp3"></audio>
+    <audio id="sonido-nada" src="./audio/nada.mp3"></audio>
+
+    <button id="toggle-music">🔊 Música</button>
+    <button id="volver" onclick="window.location.href='../../Index.html#main-content'">← Página principal</button>
+
+    <section class="slot__reels">
+      <div class="reel" id="reel-1"></div>
+      <div class="reel" id="reel-2"></div>
+      <div class="reel" id="reel-3"></div>
+
+      <div class="lever-container">
+        <div id="lever" class="lever">
+          <div class="lever-ball"></div>
+          <div class="lever-stick"></div>
+        </div>
+      </div>
+    </section>
+
+    <div id="apuesta-container">
+      <input type="number" id="apuesta-valor" placeholder="Apuesta 1-10" min="1" max="20" />
+    </div>
+
+
+  </main>
+  <aside>
+      <p>Premios</p>
+      <ul>
+        <li><p>🍒🍒🍒 - X5</p></li>
+        <li><p>🍋🍋🍋 - X10</p></li>
+        <li><p>🔔🔔🔔 - X25</p></li>
+        <li><p>⭐⭐⭐ - X50</p></li>
+        <li><p>🍀🍀🍀 - X100</p></li>
+        <li><p>7️⃣7️⃣7️⃣ - X500</p></li>
+      </ul>
+          <div id="result-message" class="mensaje-premio"></div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
