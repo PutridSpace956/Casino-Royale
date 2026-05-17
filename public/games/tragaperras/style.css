@@ -1,0 +1,487 @@
+/* ====== RESET Y FONDO ====== */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #004400;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ====== HEADER ====== */
+header {
+  padding: 12px 0;
+  background-color: #141414;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: rgba(221, 196, 57, 0.95);
+  animation: pulseGlow 2.5s infinite;
+  text-shadow:
+    0 0 5px  rgba(221, 196, 57, 0.8),
+    0 0 10px rgba(221, 196, 57, 0.6),
+    0 0 20px rgba(221, 196, 57, 0.4);
+}
+
+header > div > img {
+  height: 125px;
+  width: auto;
+}
+
+/* ====== TOOLBAR ====== */
+.toolbar {
+  background: rgba(14, 14, 14, 0.9);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#toggle-music,
+#volver {
+  background-color: rgba(43, 43, 43, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+#toggle-music:hover,
+#volver:hover {
+  transform: scale(1.05);
+}
+
+/* ====== PAGE LAYOUT ====== */
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ====== ASIDE (premios) ====== */
+aside {
+  width: auto;
+  min-width: 170px;
+  flex-shrink: 0;
+  padding: 14px 16px;
+  border: 2px solid rgba(221, 196, 57, 0.7);
+  background: linear-gradient(160deg, #1a1a1a 0%, #0e0e0e 100%);
+  border-radius: 10px;
+  align-self: flex-start;
+  box-shadow: 0 0 12px rgba(221, 196, 57, 0.15);
+}
+
+.aside-title {
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ddc439;
+  border-bottom: 1px solid rgba(221, 196, 57, 0.3);
+  padding-bottom: 8px;
+}
+
+aside ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+aside li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  white-space: nowrap;
+  padding: 4px 6px;
+  border-radius: 5px;
+  transition: background 0.15s;
+}
+
+aside li:hover {
+  background: rgba(221, 196, 57, 0.08);
+}
+
+.sim {
+  font-size: 0.95rem;
+  letter-spacing: -2px;
+}
+
+.mul {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #ddc439;
+  background: rgba(221, 196, 57, 0.12);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ====== MAIN SLOT ====== */
+main.slot {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 16px;
+}
+
+/* ====== REELS Y PALANCA ====== */
+.slot__reels {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reel {
+  width: 18vw;
+  height: 35vh;
+  border: 7.5px solid black;
+  border-radius: 10px;
+  background: #141a2a;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 8vh;
+  transition: box-shadow 0.3s;
+}
+
+.reel.spinning {
+  animation: reelSpin 0.12s linear infinite alternate;
+}
+
+.reel.win {
+  box-shadow: 0 0 20px 6px rgba(221, 196, 57, 0.8);
+  border-color: #ddc439;
+}
+
+@keyframes reelSpin {
+  from { transform: translateY(-6%); }
+  to   { transform: translateY(6%);  }
+}
+
+.symbols {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.symbol {
+  height: 35vh;
+  width: 100%;
+  font-size: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== PALANCA ====== */
+.lever-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 35vh;
+}
+
+.lever {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.lever-stick {
+  width: 2vw;
+  height: 15vh;
+  background: linear-gradient(to bottom, #ccc, #888);
+  border-radius: 10px;
+}
+
+.lever-ball {
+  width: 5vh;
+  height: 5vh;
+  background: red;
+  border-radius: 50%;
+  margin-bottom: -1vh;
+  box-shadow: 0 0 10px #000;
+  transition: transform 0.3s ease;
+}
+
+.lever.active .lever-ball {
+  transform: translateY(3vh);
+}
+
+/* ====== FICHAS BOX ====== */
+.fichas-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(160deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 2px solid rgba(221, 196, 57, 0.7);
+  border-radius: 10px;
+  padding: 10px 28px;
+  box-shadow: 0 0 12px rgba(221, 196, 57, 0.15);
+}
+
+.fichas-label {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(221, 196, 57, 0.7);
+  font-weight: bold;
+}
+
+.fichas-valor {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ddc439;
+  text-shadow: 0 0 8px rgba(221, 196, 57, 0.5);
+  letter-spacing: 1px;
+}
+
+/* ====== APUESTA ====== */
+
+#apuesta-container {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(160deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 2px solid rgba(221, 196, 57, 0.7);
+  border-radius: 10px;
+  padding: 10px 28px;
+  box-shadow: 0 0 12px rgba(221, 196, 57, 0.15);
+}
+
+.apuesta-label {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(221, 196, 57, 0.7);
+  font-weight: bold;
+}
+
+#apuesta-valor {
+  text-align: center;
+  width: 80px;
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(221, 196, 57, 0.4);
+  color: #ddc439;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(221, 196, 57, 0.5);
+  letter-spacing: 1px;
+  outline: none;
+}
+
+#apuesta-valor::-webkit-inner-spin-button,
+#apuesta-valor::-webkit-outer-spin-button {
+  opacity: 0.4;
+}
+
+/* ====== MENSAJE PREMIO ====== */
+.mensaje-premio {
+  margin-top: 1rem;
+  font-size: 1.2em;
+  text-align: center;
+  color: gold;
+  font-weight: bold;
+}
+
+/* ====== ANIMACIÓN ====== */
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 5px  rgba(221, 196, 57, 0.8),
+      0 0 10px rgba(221, 196, 57, 0.6),
+      0 0 20px rgba(221, 196, 57, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(221, 196, 57, 1.0),
+      0 0 20px rgba(221, 196, 57, 0.8),
+      0 0 30px rgba(221, 196, 57, 0.6);
+  }
+}
+
+/* ====== TABLET ====== */
+@media (max-width: 1200px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  header > div > img {
+    height: 110px;
+  }
+
+  .reel {
+    width: 22vw;
+    height: 32vh;
+  }
+
+  .symbol {
+    font-size: 7vh;
+    height: 32vh;
+  }
+
+  .lever-stick {
+    width: 3vw;
+    height: 14vh;
+  }
+
+  .lever-ball {
+    width: 4.5vh;
+    height: 4.5vh;
+  }
+
+  aside {
+    width: 140px;
+  }
+}
+
+/* ====== MOBILE ====== */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  header {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header > div > img {
+    height: 90px;
+  }
+
+  .toolbar {
+    justify-content: center;
+  }
+
+  .page-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  aside {
+    width: 90%;
+    order: 2;
+  }
+
+  main.slot {
+    width: 100%;
+    padding: 10px;
+    order: 1;
+  }
+
+  .slot__reels {
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .reel {
+    width: 26vw;
+    height: 30vh;
+    min-width: 100px;
+  }
+
+  .symbol {
+    height: 30vh;
+    font-size: 5.5vh;
+  }
+
+  .lever-container {
+    height: auto;
+  }
+
+  .lever-stick {
+    width: 6vw;
+    height: 12vh;
+  }
+
+  .lever-ball {
+    width: 5vh;
+    height: 5vh;
+  }
+}
+
+/* ====== SMALL MOBILE ====== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .reel {
+    height: 25vh;
+  }
+
+  .symbol {
+    height: 25vh;
+    font-size: 5vh;
+  }
+
+  .lever-stick {
+    width: 7vw;
+    height: 11vh;
+  }
+
+  .lever-ball {
+    width: 4.5vh;
+    height: 4.5vh;
+  }
+
+  #apuesta-valor {
+    width: 70px;
+  }
+}
