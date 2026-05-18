@@ -19,36 +19,21 @@ function setFichas(valor) {
     localStorage.setItem("fichas", valor);
 }
 
-let _fichasRuleta = 0; // variable global para guardar al salir de la página
-
-// Guardar saldo automáticamente al cerrar o cambiar de página
-window.addEventListener('pagehide', () => {
-    navigator.sendBeacon(
-        BASE + '/api/guardar_saldo.php',
-        new Blob([JSON.stringify({ saldo: _fichasRuleta })], { type: 'application/json' })
-    );
-});
-
 window.onload = function () {
     let fichasDisponibles = getFichas();
-    _fichasRuleta = fichasDisponibles;
     let apuestaActual = 1;
     const fichasColocadas = {}; // objeto con las apuestas: { casilla: cantidad }
     let ultimaApuesta = {};     // última apuesta para poder repetirla
 
-    let mousePresionado    = false;
-    let ultimaCeldaApuesta = null;
-    let timerClickSostenido = null;
-
     // Referencias a elementos del DOM
-    const spanFichas    = document.getElementById("fichas-disponibles");
-    const spanApuesta   = document.getElementById("apuesta-actual");
-    const barraApuesta  = document.getElementById("barra-apuesta");
-    const btnEliminar   = document.getElementById("eliminar-fichas");
+    const spanFichas     = document.getElementById("fichas-disponibles");
+    const spanApuesta    = document.getElementById("apuesta-actual");
+    const barraApuesta   = document.getElementById("barra-apuesta");
+    const btnEliminar    = document.getElementById("eliminar-fichas");
     const resultadoTexto = document.getElementById("resultado-ruleta");
-    const ruletaImg     = document.getElementById("ruleta");
-    const btnGirar      = document.getElementById("girar-ruleta");
-    const mesa          = document.getElementById("mesa");
+    const ruletaImg      = document.getElementById("ruleta");
+    const btnGirar       = document.getElementById("girar-ruleta");
+    const mesa           = document.getElementById("mesa");
 
     // Color de cada número de la ruleta (el 0 es verde, resto rojo/negro alternados)
     const colores = {
@@ -79,12 +64,11 @@ window.onload = function () {
 
     // Actualiza los contadores de fichas y apuesta en pantalla
     function actualizarInfo() {
-        _fichasRuleta      = fichasDisponibles;
         barraApuesta.max   = fichasDisponibles;
         if (apuestaActual > fichasDisponibles)
             apuestaActual = fichasDisponibles > 0 ? fichasDisponibles : 1;
-        barraApuesta.value    = apuestaActual;
-        spanFichas.textContent = fichasDisponibles;
+        barraApuesta.value      = apuestaActual;
+        spanFichas.textContent  = fichasDisponibles;
         spanApuesta.textContent = apuestaActual;
         setFichas(fichasDisponibles);
     }
@@ -124,82 +108,10 @@ window.onload = function () {
         actualizarInfo();
     }
 
-    // --- Eventos del ratón para colocar fichas (clic sostenido repite) ---
-    mesa.addEventListener("mousedown", (e) => {
-        e.preventDefault();
+    // Colocar fichas con un clic en la casilla
+    mesa.addEventListener("click", (e) => {
         const celda = e.target.closest("td");
-        if (!celda || celda.classList.contains("vacio")) return;
-        mousePresionado    = true;
-        ultimaCeldaApuesta = celda;
         colocarFichaEnCelda(celda);
-
-        // Si se mantiene pulsado más de 300ms, repetir automáticamente
-        timerClickSostenido = setTimeout(() => {
-            if (mousePresionado && ultimaCeldaApuesta === celda) {
-                const intervalo = setInterval(() => {
-                    if (!mousePresionado || ultimaCeldaApuesta !== celda) { clearInterval(intervalo); return; }
-                    colocarFichaEnCelda(celda);
-                }, 300);
-                celda.dataset.intervaloRepeticion = intervalo;
-            }
-        }, 300);
-    });
-
-    mesa.addEventListener("mouseup", () => {
-        mousePresionado = false; ultimaCeldaApuesta = null; clearTimeout(timerClickSostenido);
-        document.querySelectorAll("td").forEach(td => {
-            if (td.dataset.intervaloRepeticion) { clearInterval(parseInt(td.dataset.intervaloRepeticion)); delete td.dataset.intervaloRepeticion; }
-        });
-    });
-
-    mesa.addEventListener("mouseleave", () => { mousePresionado = false; ultimaCeldaApuesta = null; clearTimeout(timerClickSostenido); });
-
-    // Colocar fichas al arrastrar el ratón por la mesa
-    mesa.addEventListener("mousemove", (e) => {
-        if (!mousePresionado) return;
-        const celda = e.target.closest("td");
-        if (!celda || celda === ultimaCeldaApuesta || celda.classList.contains("vacio")) return;
-        ultimaCeldaApuesta = celda;
-        colocarFichaEnCelda(celda);
-    });
-
-    // Prevenir el evento click para que no duplique fichas con mousedown
-    mesa.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); return false; });
-
-    // --- Soporte táctil (móvil/tablet) ---
-    let touchActivo = false;
-    mesa.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const celda = document.elementFromPoint(touch.clientX, touch.clientY).closest("td");
-        if (!celda) return;
-        touchActivo = true; ultimaCeldaApuesta = celda;
-        colocarFichaEnCelda(celda);
-        timerClickSostenido = setTimeout(() => {
-            if (touchActivo && ultimaCeldaApuesta === celda) {
-                const intervalo = setInterval(() => {
-                    if (!touchActivo || ultimaCeldaApuesta !== celda) { clearInterval(intervalo); return; }
-                    colocarFichaEnCelda(celda);
-                }, 300);
-                celda.dataset.intervaloRepeticion = intervalo;
-            }
-        }, 300);
-    });
-
-    mesa.addEventListener("touchmove", (e) => {
-        e.preventDefault();
-        if (!touchActivo) return;
-        const touch = e.touches[0];
-        const celda = document.elementFromPoint(touch.clientX, touch.clientY).closest("td");
-        if (!celda || celda === ultimaCeldaApuesta || celda.classList.contains("vacio")) return;
-        ultimaCeldaApuesta = celda; colocarFichaEnCelda(celda);
-    });
-
-    mesa.addEventListener("touchend", () => {
-        touchActivo = false; ultimaCeldaApuesta = null; clearTimeout(timerClickSostenido);
-        document.querySelectorAll("td").forEach(td => {
-            if (td.dataset.intervaloRepeticion) { clearInterval(parseInt(td.dataset.intervaloRepeticion)); delete td.dataset.intervaloRepeticion; }
-        });
     });
 
     // --- Girar la ruleta ---
@@ -311,15 +223,13 @@ window.onload = function () {
         document.querySelectorAll(".ficha").forEach(f => f.remove());
         for (const k in fichasColocadas) delete fichasColocadas[k];
 
-        // Comprobar que hay suficientes fichas
         const totalNecesario = Object.values(ultimaApuesta).reduce((s, v) => s + v, 0);
         if (fichasDisponibles < totalNecesario) { alert("No tienes suficientes fichas para repetir la apuesta."); return; }
 
-        // Volver a colocar las fichas
         for (const betKey in ultimaApuesta) {
             const cantidad = ultimaApuesta[betKey];
-            fichasDisponibles          -= cantidad;
-            fichasColocadas[betKey]     = cantidad;
+            fichasDisponibles      -= cantidad;
+            fichasColocadas[betKey] = cantidad;
             const celda = mesa.querySelector(`[data-bet="${betKey}"]`);
             if (celda) {
                 const ficha = document.createElement("div");
@@ -331,11 +241,5 @@ window.onload = function () {
 
         actualizarInfo();
         resultadoTexto.innerHTML = `<b>Número ganador:</b> —`;
-    });
-
-    // Actualizar fichas si cambian en otra pestaña del navegador
-    window.addEventListener("storage", () => {
-        fichasDisponibles = getFichas();
-        actualizarInfo();
     });
 };

@@ -117,11 +117,11 @@ function resetAuto() {
         el.style.transition = 'none';
         el.style.transform  = 'translateX(' + containerW + 'px)';
 
-        // Animar hasta que salga por la izquierda
-        requestAnimationFrame(() => requestAnimationFrame(() => {
+        // Esperar 20ms para que el navegador aplique la posición inicial antes de animar
+        setTimeout(() => {
             el.style.transition = 'transform ' + duration + 's linear';
             el.style.transform  = 'translateX(-' + textW + 'px)';
-        }));
+        }, 20);
 
         // Esperar a que termine + 1s de pausa antes del siguiente mensaje
         setTimeout(runNext, (duration + 1) * 1000);

@@ -38,17 +38,6 @@ document.getElementById('cvv').addEventListener('input', function () {
     this.value = this.value.replace(/\D/g, '').slice(0, 4);
 });
 
-function luhn(number) {
-    const digits = number.replace(/\s/g, '').split('').reverse().map(Number);
-    let sum = 0;
-    for (let i = 0; i < digits.length; i++) {
-        let d = digits[i];
-        if (i % 2 === 1) { d *= 2; if (d > 9) d -= 9; }
-        sum += d;
-    }
-    return sum % 10 === 0;
-}
-
 function showAlert(msg, type) {
     const el = document.getElementById('alerta');
     el.textContent = msg;
@@ -79,12 +68,8 @@ document.getElementById('form-compra').addEventListener('submit', async function
     }
 
     const rawNum = numero.replace(/\s/g, '');
-    if (rawNum.length < 13 || rawNum.length > 19 || !/^\d+$/.test(rawNum)) {
-        showAlert('Número de tarjeta no válido.', 'error');
-        return;
-    }
-    if (!luhn(rawNum)) {
-        showAlert('El número de tarjeta no es válido (Luhn).', 'error');
+    if (rawNum.length !== 16 || !/^\d+$/.test(rawNum)) {
+        showAlert('El número de tarjeta debe tener 16 dígitos.', 'error');
         return;
     }
 

@@ -23,20 +23,11 @@ if (!isset($paquetes[$fichas]) || abs($paquetes[$fichas] - $precio) > 0.01) {
     exit;
 }
 
+require_once __DIR__ . '/../../app/core/Database.php';
 require_once __DIR__ . '/../../app/models/Usuario.php';
 
-function conectarBD_local() {
-    $host   = 'localhost';
-    $dbname = 'Merini_Federico_db';
-    $user   = 'root';
-    $pass   = '';
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;
-}
-
 try {
-    $db  = conectarBD_local();
+    $db  = conectarBD();
     $usuario = new Usuario($db);
     $row = $usuario->obtenerSaldo($_SESSION['user_id']);
     $saldoActual = $row ? intval($row['saldo']) : 0;
