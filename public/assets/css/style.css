@@ -110,7 +110,7 @@ h1 {
   cursor: pointer;
   background-size: cover;
   background-position: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.4s ease;
   box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 

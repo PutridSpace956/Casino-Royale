@@ -23,11 +23,3 @@ CREATE TABLE partida (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
-CREATE TABLE sesion (
-    id_sesion    INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario   INT NOT NULL,
-    ip           VARCHAR(45) NOT NULL,
-    fecha_inicio DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fecha_fin    DATETIME,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
-);

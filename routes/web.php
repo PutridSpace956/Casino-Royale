@@ -23,7 +23,7 @@ function dniEsValido($dni) {
 
 // Cuenta cuántas palabras tiene un texto (separadas por espacios).
 function contarPalabras($texto) {
-    return count(preg_split('/\s+/', trim($texto), -1, PREG_SPLIT_NO_EMPTY));
+    return count(array_filter(explode(' ', trim($texto))));
 }
 
 
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($page, ['login', 'register
         // --- REGISTRO ---
         if ($page === 'register') {
             // Recoger y limpiar los datos del formulario
-            $nombre           = implode(' ', preg_split('/\s+/', trim($_POST['nombre'] ?? ''), -1, PREG_SPLIT_NO_EMPTY));
+            $nombre           = trim($_POST['nombre'] ?? '');
             $apellido         = trim($_POST['apellido']         ?? '');
             $username         = trim($_POST['username']         ?? '');
             $dni              = strtoupper(trim($_POST['dni']   ?? ''));
