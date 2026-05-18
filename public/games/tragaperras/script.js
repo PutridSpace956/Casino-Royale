@@ -35,50 +35,49 @@ lever.addEventListener("click", function() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ apuesta: apuesta })
     })
-    .then(function(response) {
-        return response.json().then(function(result) {
-            if (!response.ok) {
-                intervals.forEach(clearInterval);
-                reels.forEach(function(r) { r.classList.remove('spinning'); });
-                mostrarMensaje("❌ " + (result.error || "Error al jugar."), "error");
-                girando = false;
-                lever.classList.remove('active');
-                return;
+    .then(function(res) { return res.json(); })
+    .then(function(result) {
+        if (result.error) {
+            intervals.forEach(clearInterval);
+            reels.forEach(function(r) { r.classList.remove('spinning'); });
+            mostrarMensaje("❌ " + result.error, "error");
+            girando = false;
+            lever.classList.remove('active');
+            return;
+        }
+
+        setTimeout(function() {
+            clearInterval(intervals[0]);
+            reels[0].classList.remove('spinning');
+            reels[0].textContent = result.resultado[0];
+        }, 800);
+
+        setTimeout(function() {
+            clearInterval(intervals[1]);
+            reels[1].classList.remove('spinning');
+            reels[1].textContent = result.resultado[1];
+        }, 1400);
+
+        setTimeout(function() {
+            clearInterval(intervals[2]);
+            reels[2].classList.remove('spinning');
+            reels[2].textContent = result.resultado[2];
+
+            if (saldoDisplay) saldoDisplay.textContent = result.saldo;
+
+            if (result.ganancia > 0) {
+                mostrarMensaje("🎉 ¡Premio! Ganaste " + result.ganancia + " fichas.", "premio");
+                reels.forEach(function(r) { r.classList.add('win'); });
+                setTimeout(function() {
+                    reels.forEach(function(r) { r.classList.remove('win'); });
+                }, 1500);
+            } else {
+                mostrarMensaje("😞 Sin premio.", "nada");
             }
 
-            setTimeout(function() {
-                clearInterval(intervals[0]);
-                reels[0].classList.remove('spinning');
-                reels[0].textContent = result.resultado[0];
-            }, 800);
-
-            setTimeout(function() {
-                clearInterval(intervals[1]);
-                reels[1].classList.remove('spinning');
-                reels[1].textContent = result.resultado[1];
-            }, 1400);
-
-            setTimeout(function() {
-                clearInterval(intervals[2]);
-                reels[2].classList.remove('spinning');
-                reels[2].textContent = result.resultado[2];
-
-                if (saldoDisplay) saldoDisplay.textContent = result.saldo;
-
-                if (result.ganancia > 0) {
-                    mostrarMensaje("🎉 ¡Premio! Ganaste " + result.ganancia + " fichas.", "premio");
-                    reels.forEach(function(r) { r.classList.add('win'); });
-                    setTimeout(function() {
-                        reels.forEach(function(r) { r.classList.remove('win'); });
-                    }, 1500);
-                } else {
-                    mostrarMensaje("😞 Sin premio.", "nada");
-                }
-
-                girando = false;
-                lever.classList.remove('active');
-            }, 2000);
-        });
+            girando = false;
+            lever.classList.remove('active');
+        }, 2000);
     })
     .catch(function() {
         intervals.forEach(clearInterval);

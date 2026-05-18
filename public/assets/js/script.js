@@ -72,36 +72,34 @@ function resetAuto() {
 }
 
 
-(function() {
-    const el = document.getElementById('ticker');
-    if (!el) return; // solo existe en la página principal
-
-    const msgs = [
+var elTicker = document.getElementById('ticker');
+if (elTicker) {
+    var tickerMsgs = [
         '¡Bienvenido a Royal Casino! Descubre nuestros juegos exclusivos.',
         'Juega y Gana distintos Premios en nuestros juegos de Tragaperras, Blackjack y Ruleta',
     ];
-    let i = 0;
+    var tickerI = 0;
 
-    function runNext() {
-        const text     = msgs[i];
-        i              = (i + 1) % msgs.length;
-        el.textContent = text;
+    function siguienteMensaje() {
+        var texto = tickerMsgs[tickerI];
+        tickerI = (tickerI + 1) % tickerMsgs.length;
+        elTicker.textContent = texto;
 
-        const containerW = el.parentElement.offsetWidth;
-        const textW      = el.offsetWidth;
-        const duration   = (containerW + textW) / 120; // 120px por segundo
+        var anchoContenedor = elTicker.parentElement.offsetWidth;
+        var anchoTexto = elTicker.offsetWidth;
+        var duracion = (anchoContenedor + anchoTexto) / 120; // 120px por segundo
 
-        el.style.transition = 'none';
-        el.style.transform  = 'translateX(' + containerW + 'px)';
+        elTicker.style.transition = 'none';
+        elTicker.style.transform = 'translateX(' + anchoContenedor + 'px)';
 
         // esperar 20ms para que el navegador aplique la posición inicial antes de animar
-        setTimeout(() => {
-            el.style.transition = 'transform ' + duration + 's linear';
-            el.style.transform  = 'translateX(-' + textW + 'px)';
+        setTimeout(function() {
+            elTicker.style.transition = 'transform ' + duracion + 's linear';
+            elTicker.style.transform = 'translateX(-' + anchoTexto + 'px)';
         }, 20);
 
-        setTimeout(runNext, (duration + 1) * 1000);
+        setTimeout(siguienteMensaje, (duracion + 1) * 1000);
     }
 
-    runNext();
-})();
+    siguienteMensaje();
+}

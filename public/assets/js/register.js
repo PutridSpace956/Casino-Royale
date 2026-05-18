@@ -18,7 +18,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
     if (!nombre || !apellido || !username || !dni || !email || !password || !fecha) {
         e.preventDefault();
         showError('Por favor completa todos los campos.');
-    } else if (nombre.trim().split(/\s+/).length > 2) {
+    } else if (nombre.trim().split(' ').filter(function(w) { return w.length > 0; }).length > 2) {
         e.preventDefault();
         showError('El nombre puede tener máximo 2 palabras.');
     } else if (nombre.length < 2) {
