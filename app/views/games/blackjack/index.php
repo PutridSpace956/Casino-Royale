@@ -1,6 +1,3 @@
-<!-- Vista: juego de Blackjack.
-     data-base: URL base del proyecto (usada por el JS para llamar a las APIs).
-     data-fichas: saldo actual del usuario (se pasa al JS para inicializar las fichas). -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -1,6 +1,3 @@
-<!-- Vista: juego de Tragaperras.
-     El saldo se muestra directamente con PHP (<?= $_SESSION['user_saldo'] ?>).
-     La lógica del juego (tiradas, premios) se procesa en public/api/tragaperras.php. -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

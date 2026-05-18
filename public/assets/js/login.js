@@ -1,11 +1,7 @@
-// Validación del formulario de login en el lado del cliente.
-// Si hay errores, se muestra el mensaje y se cancela el envío del formulario.
-// La validación definitiva también se hace en el servidor (routes/web.php).
-
 document.querySelector('form').addEventListener('submit', function(e) {
     const email    = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    const emailRx  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // formato básico de email
+    const emailRx  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !password) {
         e.preventDefault();
@@ -19,8 +15,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 });
 
-// Muestra un mensaje de error encima del formulario.
-// Si ya existe un bloque de error, lo reutiliza en lugar de crear uno nuevo.
 function showError(msg) {
     let el = document.querySelector('.alert.alert-error');
     if (!el) {

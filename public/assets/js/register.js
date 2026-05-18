@@ -1,7 +1,3 @@
-// Validación del formulario de registro en el lado del cliente.
-// Comprueba todos los campos antes de enviar el formulario al servidor.
-// La validación definitiva también se hace en el servidor (routes/web.php).
-
 document.querySelector('form').addEventListener('submit', function(e) {
     const nombre    = document.getElementById('nombre').value.trim();
     const apellido  = document.getElementById('apellido').value.trim();
@@ -11,10 +7,9 @@ document.querySelector('form').addEventListener('submit', function(e) {
     const password  = document.getElementById('password').value;
     const fecha     = document.getElementById('fecha_nacimiento').value;
     const emailRx   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const dniLetras = 'TRWAGMYFPDXBNJZSQVHLCKE'; // letras válidas del DNI español
+    const dniLetras = 'TRWAGMYFPDXBNJZSQVHLCKE'; // letras del DNI español
 
-    // Comprueba si un DNI español es válido:
-    // debe tener 8 dígitos y la letra correspondiente según el cálculo mod 23
+    // calculo mod 23 para validar el DNI
     function validarDni(d) {
         if (!/^\d{8}[A-Z]$/.test(d)) return false;
         return d[8] === dniLetras[parseInt(d.slice(0, 8), 10) % 23];
@@ -45,7 +40,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
         e.preventDefault();
         showError('La contraseña debe tener al menos 6 caracteres.');
     } else if (fecha) {
-        // Comprobar que el usuario tiene al menos 18 años
         const hoy        = new Date();
         const nacimiento = new Date(fecha);
         let edad = hoy.getFullYear() - nacimiento.getFullYear();
@@ -58,7 +52,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 });
 
-// Muestra un mensaje de error encima del formulario.
 function showError(msg) {
     let el = document.querySelector('.alert.alert-error');
     if (!el) {

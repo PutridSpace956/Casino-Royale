@@ -1,5 +1,3 @@
-<!-- Vista: compra ficticia de fichas.
-     Requiere sesión iniciada. El pago es simulado; no se realiza ningún cargo real. -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +24,6 @@
 
     <div id="alerta" class="alerta oculto"></div>
 
-    <!-- Selección de paquete -->
     <div class="paquetes">
       <div class="paquete" data-fichas="500" data-precio="4.99">
         <span class="paquete-nombre">Bronce</span>
@@ -50,7 +47,6 @@
       </div>
     </div>
 
-    <!-- Formulario de pago -->
     <form id="form-compra" autocomplete="off">
       <div class="campo">
         <label for="titular">Titular de la tarjeta</label>

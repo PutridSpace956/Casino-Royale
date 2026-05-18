@@ -1,6 +1,3 @@
-<!-- Vista: juego de Ruleta.
-     data-base: URL base del proyecto.
-     data-fichas: saldo actual del usuario. -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

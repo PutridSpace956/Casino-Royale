@@ -1,5 +1,3 @@
-<!-- Vista: formulario de inicio de sesión.
-     Los errores y mensajes de éxito vienen desde routes/web.php en $error y $success. -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

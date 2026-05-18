@@ -1,4 +1,3 @@
-<!-- Vista: sección de Caballos (en construcción). -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

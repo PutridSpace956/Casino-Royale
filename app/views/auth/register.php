@@ -1,6 +1,3 @@
-<!-- Vista: formulario de registro de nuevo usuario.
-     La validación del lado del servidor está en routes/web.php.
-     La validación del lado del cliente está en public/assets/js/register.js. -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

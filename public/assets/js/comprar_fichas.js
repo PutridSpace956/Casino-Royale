@@ -2,7 +2,6 @@ const BASE = document.body.dataset.base;
 
 let selectedPaquete = null;
 
-// Package selection
 document.querySelectorAll('.paquete').forEach(el => {
     el.addEventListener('click', () => {
         document.querySelectorAll('.paquete').forEach(p => p.classList.remove('selected'));
@@ -20,20 +19,18 @@ document.querySelectorAll('.paquete').forEach(el => {
     }
 });
 
-// Card number: auto-format with spaces every 4 digits
+// separar el número de tarjeta en grupos de 4
 document.getElementById('numero').addEventListener('input', function () {
     let raw = this.value.replace(/\D/g, '').slice(0, 16);
     this.value = raw.match(/.{1,4}/g)?.join(' ') ?? raw;
 });
 
-// Expiry: auto-insert slash after MM
 document.getElementById('caducidad').addEventListener('input', function () {
     let raw = this.value.replace(/\D/g, '').slice(0, 4);
     if (raw.length > 2) raw = raw.slice(0, 2) + '/' + raw.slice(2);
     this.value = raw;
 });
 
-// CVV: digits only
 document.getElementById('cvv').addEventListener('input', function () {
     this.value = this.value.replace(/\D/g, '').slice(0, 4);
 });
@@ -73,7 +70,6 @@ document.getElementById('form-compra').addEventListener('submit', async function
         return;
     }
 
-    // Expiry: MM/AA
     const expParts = caducidad.split('/');
     if (expParts.length !== 2 || expParts[0].length !== 2 || expParts[1].length !== 2) {
         showAlert('Introduce la caducidad en formato MM/AA.', 'error');
@@ -82,7 +78,7 @@ document.getElementById('form-compra').addEventListener('submit', async function
     const mm = parseInt(expParts[0]);
     const yy = parseInt(expParts[1]) + 2000;
     const now = new Date();
-    const expDate = new Date(yy, mm - 1 + 1, 1); // first day of month after expiry
+    const expDate = new Date(yy, mm, 1); // primer día del mes siguiente a la caducidad
     if (mm < 1 || mm > 12 || expDate <= now) {
         showAlert('La tarjeta está caducada o la fecha no es válida.', 'error');
         return;

@@ -1,37 +1,27 @@
-// ============================================================
-// BLACKJACK - Lógica del juego
-// El objetivo es sumar más que el dealer sin pasarse de 21.
-// Las figuras (J, Q, K) valen 10. El As vale 11 o 1.
-// ============================================================
+const BASE = document.body.dataset.base || '';
+localStorage.setItem('fichas', document.body.dataset.fichas || 1000);
 
-const BASE = document.body.dataset.base || ''; // URL base del proyecto
-localStorage.setItem('fichas', document.body.dataset.fichas || 1000); // inicializar fichas desde PHP
+let deck        = [];
+let dealerCards = [];
+let playerCards = [];
+let hiddenCard  = null;
+let canHit      = false;
 
-// --- Variables globales del juego ---
-let deck        = [];   // baraja actual
-let dealerCards = [];   // cartas del dealer
-let playerCards = [];   // cartas del jugador
-let hiddenCard  = null; // carta boca abajo del dealer
-let canHit      = false; // si el jugador puede pedir carta
+let chips      = getFichas();
+let currentBet = 0;
 
-let chips      = getFichas(); // fichas actuales del jugador
-let currentBet = 0;           // apuesta de la ronda actual
-
-// Para guardar el resultado correcto en la base de datos
 let saldoAntesDeBet = 0;
 let apuestaDeBD     = 0;
 
 
-// Envía el resultado de la partida al servidor para guardarlo en la base de datos
 function guardarPartidaBJ(ganancia) {
     fetch(BASE + '/api/guardar_partida.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia, saldo: chips })
-    }).catch(() => {}); // ignorar errores de red silenciosamente
+    }).catch(() => {});
 }
 
-// Lee las fichas guardadas en localStorage
 function getFichas() {
     let fichas = parseInt(localStorage.getItem("fichas"));
     if (isNaN(fichas)) {
@@ -41,12 +31,10 @@ function getFichas() {
     return fichas;
 }
 
-// Guarda las fichas en localStorage
 function setFichas(valor) {
     localStorage.setItem("fichas", valor);
 }
 
-// Inicialización: asignar eventos a los botones al cargar la página
 window.onload = function() {
     document.getElementById("Apostar").addEventListener("click", apostar);
     document.getElementById("Pedir").addEventListener("click", pedir);
@@ -58,7 +46,7 @@ window.onload = function() {
     shuffleDeck();
     updateChips();
 
-    // Iniciar música al primer clic del usuario (los navegadores lo requieren)
+    // los navegadores bloquean el audio hasta que el usuario interactua
     const music = document.getElementById("bg-music");
     document.body.addEventListener("click", () => {
         music.volume = 0.3;
@@ -66,17 +54,16 @@ window.onload = function() {
     }, { once: true });
 };
 
-// Crea una baraja completa de 52 cartas
 function buildDeck() {
     const values = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
-    const suits  = ["C","D","H","S"]; // C=clubs, D=diamonds, H=hearts, S=spades
+    const suits  = ["C","D","H","S"];
     deck = [];
     for (let s of suits)
         for (let v of values)
             deck.push(`${v}-${s}`);
 }
 
-// Mezcla la baraja usando el algoritmo Fisher-Yates
+// mezcla la baraja con Fisher-Yates
 function shuffleDeck() {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -84,7 +71,6 @@ function shuffleDeck() {
     }
 }
 
-// El jugador realiza su apuesta y comienza la ronda
 function apostar() {
     const betValue = parseInt(document.getElementById("bet-amount").value);
     if (isNaN(betValue) || betValue <= 0 || betValue > chips) {
@@ -101,7 +87,6 @@ function apostar() {
 
     if (chips <= 0) checkGameOver();
 
-    // Activar botones de juego y desactivar el de apostar
     document.getElementById("Apostar").disabled  = true;
     document.getElementById("Pedir").disabled    = false;
     document.getElementById("Quedarse").disabled = false;
@@ -112,8 +97,7 @@ function apostar() {
     startGame();
 }
 
-// Reparte las cartas iniciales: 1 oculta + 1 visible al dealer, 2 al jugador
-async function startGame() {
+function startGame() {
     dealerCards = [];
     playerCards = [];
     hiddenCard  = null;
@@ -125,29 +109,24 @@ async function startGame() {
     document.getElementById("dealer-sum").innerText   = "?";
     document.getElementById("player-sum").innerText   = "";
 
-    // Carta oculta del dealer (boca abajo)
+    // primera carta del dealer boca abajo
     hiddenCard = deck.pop();
     dealerCards.push(hiddenCard);
     addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/back.png");
 
-    await delay(600);
     const dealerVisible = deck.pop();
     dealerCards.push(dealerVisible);
     addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/" + formatCardName(dealerVisible) + ".png");
 
-    // Dos cartas para el jugador
-    await delay(600);
     for (let i = 0; i < 2; i++) {
         const c = deck.pop();
         playerCards.push(c);
         addCardAnimated("player-cards", BASE + "/games/blackjack/cartas/" + formatCardName(c) + ".png");
-        await delay(600);
     }
 
     const playerVal = computeHandValue(playerCards);
     document.getElementById("player-sum").innerText = playerVal;
 
-    // Comprobar Blackjack del dealer al inicio
     const dealerVal = computeHandValue(dealerCards);
     if (dealerVal === 21) {
         canHit = false;
@@ -161,7 +140,6 @@ async function startGame() {
         return;
     }
 
-    // Comprobar Blackjack del jugador al inicio
     if (playerVal === 21) {
         canHit = false;
         document.getElementById("Resultado").innerText = "¡Blackjack!";
@@ -182,7 +160,6 @@ async function startGame() {
     }
 }
 
-// El jugador pide una carta más
 function pedir() {
     if (!canHit) return;
 
@@ -193,38 +170,32 @@ function pedir() {
     const playerVal = computeHandValue(playerCards);
     document.getElementById("player-sum").innerText = playerVal;
 
-    // Si se pasa de 21, terminar automáticamente
     if (playerVal > 21) {
         canHit = false;
         setTimeout(revealDealerOnly, 800);
     }
 }
 
-// El jugador se planta con las cartas actuales
 function quedarse() {
     if (!canHit) return;
     canHit = false;
     revealDealerAndPlay();
 }
 
-// Revela la carta oculta del dealer y juega su turno automáticamente
-async function revealDealerAndPlay() {
+function revealDealerAndPlay() {
     const hiddenImg = document.querySelector("#dealer-cards img:first-child");
     if (hiddenImg && hiddenCard)
         hiddenImg.src = BASE + "/games/blackjack/cartas/" + formatCardName(hiddenCard) + ".png";
 
-    await delay(600);
-
-    let dealerVal  = computeHandValue(dealerCards);
+    let dealerVal   = computeHandValue(dealerCards);
     const playerVal = computeHandValue(playerCards);
     document.getElementById("dealer-sum").innerText = dealerVal;
 
-    // El dealer pide cartas mientras tenga menos de 17 y menos que el jugador
+    // el dealer sigue pidiendo cartas hasta llegar a 17
     while (dealerVal < 17 && dealerVal <= playerVal) {
         const c = deck.pop();
         dealerCards.push(c);
         addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/" + formatCardName(c) + ".png");
-        await delay(700);
         dealerVal = computeHandValue(dealerCards);
         document.getElementById("dealer-sum").innerText = dealerVal;
     }
@@ -232,7 +203,6 @@ async function revealDealerAndPlay() {
     mostrarResultado();
 }
 
-// Solo revela la carta oculta (cuando el jugador ya se pasó)
 function revealDealerOnly() {
     const hiddenImg = document.querySelector("#dealer-cards img:first-child");
     if (hiddenImg && hiddenCard)
@@ -241,7 +211,6 @@ function revealDealerOnly() {
     mostrarResultado();
 }
 
-// El jugador dobla la apuesta y recibe exactamente una carta más
 function doblar() {
     if (!canHit || currentBet === 0) return;
     if (chips < currentBet) {
@@ -251,7 +220,7 @@ function doblar() {
 
     chips      -= currentBet;
     setFichas(chips);
-    currentBet *= 2; // la apuesta se dobla
+    currentBet *= 2;
     updateChips();
 
     const c = deck.pop();
@@ -266,7 +235,6 @@ function doblar() {
     setTimeout(revealDealerAndPlay, 800);
 }
 
-// Muestra el resultado final de la ronda
 function mostrarResultado() {
     const dealerFinal = computeHandValue(dealerCards);
     document.getElementById("Resultado").innerText = evaluarMano(computeHandValue(playerCards), dealerFinal, playerCards);
@@ -274,7 +242,6 @@ function mostrarResultado() {
     updateChips();
     if (chips <= 0) checkGameOver();
 
-    // Calcular ganancia real para guardar en BD
     const gananciaParaDB = Math.max(0, chips - saldoAntesDeBet + apuestaDeBD);
     guardarPartidaBJ(gananciaParaDB);
 
@@ -284,8 +251,6 @@ function mostrarResultado() {
     document.getElementById("Doblar").disabled   = true;
 }
 
-// Compara la mano del jugador con la del dealer y decide el resultado.
-// handCards: array de cartas de esa mano
 function evaluarMano(playerFinal, dealerFinal, handCards) {
     if (handCards && handCards.length === 2 && playerFinal === 21) {
         chips += currentBet * 2; setFichas(chips);
@@ -310,8 +275,7 @@ function evaluarMano(playerFinal, dealerFinal, handCards) {
     }
 }
 
-// Calcula el valor total de una mano.
-// Los ases valen 11, pero se reducen a 1 si el total supera 21.
+// los ases valen 11 pero se bajan a 1 si te pasas de 21
 function computeHandValue(cardsArray) {
     let sum = 0, aceCount = 0;
     for (let card of cardsArray) {
@@ -320,19 +284,16 @@ function computeHandValue(cardsArray) {
         else if (["J","Q","K"].includes(v)) { sum += 10; }
         else                                { sum += parseInt(v); }
     }
-    // Convertir ases de 11 a 1 si es necesario para no pasarse
     while (sum > 21 && aceCount > 0) { sum -= 10; aceCount--; }
     return sum;
 }
 
-// Convierte el código de carta (ej: "A-H") al nombre del archivo de imagen (ej: "A_hearts")
 function formatCardName(card) {
     const suits = { C: "clubs", D: "diamonds", H: "hearts", S: "spades" };
     const [value, suit] = card.split("-");
     return `${value}_${suits[suit]}`;
 }
 
-// Crea una imagen de carta y la añade al contenedor con animación
 function addCardAnimated(containerId, src) {
     const img = document.createElement("img");
     img.src = src;
@@ -340,18 +301,11 @@ function addCardAnimated(containerId, src) {
     document.getElementById(containerId).appendChild(img);
 }
 
-// Pausa la ejecución durante 'ms' milisegundos (para animar con async/await)
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Actualiza el contador de fichas en pantalla y en localStorage
 function updateChips() {
     setFichas(chips);
     document.getElementById("chips").innerText = chips;
 }
 
-// Comprueba si el jugador se quedó sin fichas y bloquea el juego
 function checkGameOver() {
     if (chips <= 0) {
         document.getElementById("Resultado").innerText  = "💀 ¡Te has quedado sin fichas! Reinicia el juego para volver a jugar.";
@@ -361,7 +315,6 @@ function checkGameOver() {
     }
 }
 
-// Alternar música de fondo entre encendida y silenciada
 function toggleMusic() {
     const music = document.getElementById("bg-music");
     const btn   = document.getElementById("toggle-music");
