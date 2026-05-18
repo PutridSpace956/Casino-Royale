@@ -1,0 +1,78 @@
+<!-- Vista: juego de Blackjack.
+     data-base: URL base del proyecto (usada por el JS para llamar a las APIs).
+     data-fichas: saldo actual del usuario (se pasa al JS para inicializar las fichas). -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack</title>
+  <link rel="stylesheet" href="<?= BASE ?>/games/blackjack/style.css">
+  <script src="<?= BASE ?>/games/blackjack/script.js?v=3" defer></script>
+</head>
+<body data-base="<?= BASE ?>" data-fichas="<?= (int)($_SESSION['user_saldo'] ?? 1000) ?>">
+  <header>
+    <div class="titulo">
+      <div class="Logo"><img src="<?= BASE ?>/games/blackjack/img/Escudo.png" alt="escudo"></div>
+      <div class="Titulo"><h1>Royal Casino</h1></div>
+      <div class="Logo"><img src="<?= BASE ?>/games/blackjack/img/Escudo.png" alt="escudo"></div>
+    </div>
+  </header>
+
+  <audio id="bg-music" src="<?= BASE ?>/games/blackjack/audio/musicafondo.mp3" loop></audio>
+
+  <div class="toolbar">
+    <button id="toggle-music">🔊 Música</button>
+    <button id="volver" onclick="window.location.href='<?= BASE ?>/'">← Página principal</button>
+  </div>
+
+  <div class="page-layout">
+    <div class="aside">
+      <div class="instrucciones">
+        <p>Instrucciones</p>
+        <ul>
+          <li><p>Seleccione la cantidad de fichas que quiere jugar y apuéstelas</p></li>
+          <li><p>Si quiere jugar una carta, pulse el botón de pedir</p></li>
+          <li><p>En caso contrario, pulse el botón de quedarse</p></li>
+        </ul>
+      </div>
+      <div class="reglas">
+        <p>Reglas</p>
+        <ul>
+          <li><p>En el Blackjack, el objetivo es conseguir que la suma de las cartas sea mayor a las del dealer, sin pasarse de 21</p></li>
+          <li><p>Las figuras tienen valor de 10 y los ases pueden valer tanto 1 como 11</p></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="table">
+        <div id="dealer-area">
+          <h2>Dealer: <span id="dealer-sum">?</span></h2>
+          <div id="dealer-cards" class="cards"></div>
+        </div>
+
+        <div id="player-area">
+          <h2>Jugador: <span id="player-sum">0</span></h2>
+          <div id="player-cards" class="cards"></div>
+
+        </div>
+      </div>
+
+      <div class="bet-container">
+        <p>Fichas: <span id="chips">500</span></p>
+        <label for="bet-amount">Apuesta:</label>
+        <input type="number" id="bet-amount" min="10" step="10" value="50">
+        <button id="Apostar">Apostar</button>
+        <p id="Resultado"></p>
+      </div>
+
+      <div class="buttons">
+        <button id="Doblar" disabled>Doblar</button>
+        <button id="Pedir" disabled>Pedir</button>
+        <button id="Quedarse" disabled>Quedarse</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
