@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blackjack</title>
   <link rel="stylesheet" href="<?= BASE ?>/games/blackjack/style.css">
-  <script src="<?= BASE ?>/games/blackjack/script.js?v=3" defer></script>
 </head>
-<body data-base="<?= BASE ?>" data-fichas="<?= (int)($_SESSION['user_saldo'] ?? 1000) ?>">
+<body>
+  <script>
+    const BASE = '<?= BASE ?>';
+    localStorage.setItem('fichas', <?= (int)($_SESSION['user_saldo'] ?? 1000) ?>);
+  </script>
+  <script src="<?= BASE ?>/games/blackjack/script.js?v=3"></script>
   <header>
     <div class="titulo">
       <div class="Logo"><img src="<?= BASE ?>/games/blackjack/img/Escudo.png" alt="escudo"></div>

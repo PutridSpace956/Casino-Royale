@@ -5,7 +5,7 @@
   <title>Tragaperras - Royal Casino</title>
   <link rel="stylesheet" href="<?= BASE ?>/games/tragaperras/style.css">
 </head>
-<body data-base="<?= BASE ?>">
+<body>
   <header>
     <div class="Logo"><img src="<?= BASE ?>/games/tragaperras/img/Escudo.png" alt="escudo"></div>
     <h1>🎰 Tragaperras</h1>
@@ -59,6 +59,7 @@
     </main>
   </div>
 
+  <script>const BASE = '<?= BASE ?>';</script>
   <script src="<?= BASE ?>/games/tragaperras/script.js?v=3"></script>
 </body>
 </html>

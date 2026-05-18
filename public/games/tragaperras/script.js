@@ -1,4 +1,3 @@
-const BASE       = document.body.dataset.base || '';
 const lever      = document.getElementById("lever");
 const resultMsg  = document.getElementById("result-message");
 const saldoDisplay = document.getElementById("saldo-display");

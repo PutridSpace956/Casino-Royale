@@ -1,6 +1,3 @@
-const BASE = document.body.dataset.base || '';
-localStorage.setItem('fichas', document.body.dataset.fichas || 1000);
-
 function getFichas() {
     let fichas = parseInt(localStorage.getItem("fichas"));
     if (isNaN(fichas)) { fichas = 50; localStorage.setItem("fichas", fichas); }

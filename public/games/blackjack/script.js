@@ -1,6 +1,3 @@
-const BASE = document.body.dataset.base || '';
-localStorage.setItem('fichas', document.body.dataset.fichas || 1000);
-
 let deck        = [];
 let dealerCards = [];
 let playerCards = [];

@@ -1,5 +1,3 @@
-const BASE = document.body.dataset.base;
-
 let selectedPaquete = null;
 
 document.querySelectorAll('.paquete').forEach(el => {

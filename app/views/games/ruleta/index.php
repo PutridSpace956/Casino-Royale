@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ruleta Casino</title>
   <link rel="stylesheet" href="<?= BASE ?>/games/ruleta/style.css" />
-  <script src="<?= BASE ?>/games/ruleta/script.js?v=3" defer></script>
 </head>
-<body data-base="<?= BASE ?>" data-fichas="<?= (int)($_SESSION['user_saldo'] ?? 1000) ?>">
+<body>
+  <script>
+    const BASE = '<?= BASE ?>';
+    localStorage.setItem('fichas', <?= (int)($_SESSION['user_saldo'] ?? 1000) ?>);
+  </script>
+  <script src="<?= BASE ?>/games/ruleta/script.js?v=3"></script>
   <header>
     <div class="Logo"><img src="<?= BASE ?>/games/ruleta/img/Escudo.png" alt="escudo"></div>
     <h1>Ruleta</h1>

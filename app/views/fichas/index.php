@@ -6,7 +6,7 @@
   <title>Comprar Fichas - Royal Casino</title>
   <link rel="stylesheet" href="<?= BASE ?>/assets/css/fichas.css">
 </head>
-<body data-base="<?= BASE ?>">
+<body>
 
   <header>
     <div class="Logo"><img src="<?= BASE ?>/assets/img/Escudo.png" alt="escudo"></div>
@@ -73,6 +73,7 @@
     </form>
   </main>
 
+  <script>const BASE = '<?= BASE ?>';</script>
   <script src="<?= BASE ?>/assets/js/comprar_fichas.js"></script>
 </body>
 </html>

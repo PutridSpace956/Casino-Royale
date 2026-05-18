@@ -1,6 +1,6 @@
 <?php
 session_start();
 
-define('BASE', rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/'));
+define('BASE', '/ns/public');
 
 require '../routes/web.php';
