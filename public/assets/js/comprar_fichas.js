@@ -20,7 +20,8 @@ document.querySelectorAll('.paquete').forEach(el => {
 // separar el número de tarjeta en grupos de 4
 document.getElementById('numero').addEventListener('input', function () {
     let raw = this.value.replace(/\D/g, '').slice(0, 16);
-    this.value = raw.match(/.{1,4}/g)?.join(' ') ?? raw;
+    let grupos = raw.match(/.{1,4}/g);
+    this.value = grupos ? grupos.join(' ') : raw;
 });
 
 document.getElementById('caducidad').addEventListener('input', function () {
@@ -43,7 +44,7 @@ function hideAlert() {
     document.getElementById('alerta').className = 'alerta oculto';
 }
 
-document.getElementById('form-compra').addEventListener('submit', async function (e) {
+document.getElementById('form-compra').addEventListener('submit', function(e) {
     e.preventDefault();
     hideAlert();
 
@@ -76,7 +77,7 @@ document.getElementById('form-compra').addEventListener('submit', async function
     const mm = parseInt(expParts[0]);
     const yy = parseInt(expParts[1]) + 2000;
     const now = new Date();
-    const expDate = new Date(yy, mm, 1); // primer día del mes siguiente a la caducidad
+    const expDate = new Date(yy, mm, 1);
     if (mm < 1 || mm > 12 || expDate <= now) {
         showAlert('La tarjeta está caducada o la fecha no es válida.', 'error');
         return;
@@ -91,27 +92,28 @@ document.getElementById('form-compra').addEventListener('submit', async function
     btn.disabled = true;
     btn.textContent = 'Procesando...';
 
-    try {
-        const res = await fetch(BASE + '/api/comprar_fichas.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                fichas: selectedPaquete.fichas,
-                precio: selectedPaquete.precio
-            })
-        });
-        const data = await res.json();
+    fetch(BASE + '/api/comprar_fichas.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            fichas: selectedPaquete.fichas,
+            precio: selectedPaquete.precio
+        })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
         if (data.ok) {
             showAlert('¡Compra realizada! Se han añadido ' + selectedPaquete.fichas + ' fichas a tu cuenta.', 'ok');
             btn.textContent = 'Compra completada';
         } else {
-            showAlert(data.error ?? 'Error al procesar la compra.', 'error');
+            showAlert(data.error || 'Error al procesar la compra.', 'error');
             btn.disabled = false;
             btn.textContent = 'Comprar fichas';
         }
-    } catch {
+    })
+    .catch(function() {
         showAlert('Error de conexión. Inténtalo de nuevo.', 'error');
         btn.disabled = false;
         btn.textContent = 'Comprar fichas';
-    }
+    });
 });

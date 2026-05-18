@@ -14,18 +14,7 @@ function startSpinning(reels) {
     });
 }
 
-function stopReel(reel, interval, delay, finalSymbol) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            clearInterval(interval);
-            reel.classList.remove('spinning');
-            reel.textContent = finalSymbol;
-            resolve();
-        }, delay);
-    });
-}
-
-lever.addEventListener("click", async () => {
+lever.addEventListener("click", function() {
     if (girando) return;
 
     const apuesta = parseInt(document.getElementById("apuesta-valor").value, 10);
@@ -41,46 +30,63 @@ lever.addEventListener("click", async () => {
     const reels = Array.from(document.querySelectorAll('.reel'));
     const intervals = startSpinning(reels);
 
-    try {
-        const response = await fetch(BASE + '/api/tragaperras.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ apuesta })
+    fetch(BASE + '/api/tragaperras.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apuesta: apuesta })
+    })
+    .then(function(response) {
+        return response.json().then(function(result) {
+            if (!response.ok) {
+                intervals.forEach(clearInterval);
+                reels.forEach(function(r) { r.classList.remove('spinning'); });
+                mostrarMensaje("❌ " + (result.error || "Error al jugar."), "error");
+                girando = false;
+                lever.classList.remove('active');
+                return;
+            }
+
+            setTimeout(function() {
+                clearInterval(intervals[0]);
+                reels[0].classList.remove('spinning');
+                reels[0].textContent = result.resultado[0];
+            }, 800);
+
+            setTimeout(function() {
+                clearInterval(intervals[1]);
+                reels[1].classList.remove('spinning');
+                reels[1].textContent = result.resultado[1];
+            }, 1400);
+
+            setTimeout(function() {
+                clearInterval(intervals[2]);
+                reels[2].classList.remove('spinning');
+                reels[2].textContent = result.resultado[2];
+
+                if (saldoDisplay) saldoDisplay.textContent = result.saldo;
+
+                if (result.ganancia > 0) {
+                    mostrarMensaje("🎉 ¡Premio! Ganaste " + result.ganancia + " fichas.", "premio");
+                    reels.forEach(function(r) { r.classList.add('win'); });
+                    setTimeout(function() {
+                        reels.forEach(function(r) { r.classList.remove('win'); });
+                    }, 1500);
+                } else {
+                    mostrarMensaje("😞 Sin premio.", "nada");
+                }
+
+                girando = false;
+                lever.classList.remove('active');
+            }, 2000);
         });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            intervals.forEach(clearInterval);
-            reels.forEach(r => r.classList.remove('spinning'));
-            mostrarMensaje("❌ " + (result.error || "Error al jugar."), "error");
-            return;
-        }
-
-        await Promise.all([
-            stopReel(reels[0], intervals[0], 800,  result.resultado[0]),
-            stopReel(reels[1], intervals[1], 1400, result.resultado[1]),
-            stopReel(reels[2], intervals[2], 2000, result.resultado[2]),
-        ]);
-
-        if (saldoDisplay) saldoDisplay.textContent = result.saldo;
-
-        if (result.ganancia > 0) {
-            mostrarMensaje("🎉 ¡Premio! Ganaste " + result.ganancia + " fichas.", "premio");
-            reels.forEach(r => r.classList.add('win'));
-            setTimeout(() => reels.forEach(r => r.classList.remove('win')), 1500);
-        } else {
-            mostrarMensaje("😞 Sin premio.", "nada");
-        }
-
-    } catch (err) {
+    })
+    .catch(function() {
         intervals.forEach(clearInterval);
-        reels.forEach(r => r.classList.remove('spinning'));
+        reels.forEach(function(r) { r.classList.remove('spinning'); });
         mostrarMensaje("❌ Error de conexión. Inténtalo de nuevo.", "error");
-    } finally {
         girando = false;
         lever.classList.remove('active');
-    }
+    });
 });
 
 function mostrarMensaje(texto, tipo) {
@@ -91,9 +97,9 @@ function mostrarMensaje(texto, tipo) {
 const toggleBtn = document.getElementById("toggle-music");
 const bgMusic   = document.getElementById("bg-music");
 if (toggleBtn && bgMusic) {
-    toggleBtn.addEventListener("click", () => {
+    toggleBtn.addEventListener("click", function() {
         if (bgMusic.paused) {
-            bgMusic.play().catch(() => {});
+            bgMusic.play().catch(function() {});
             toggleBtn.textContent = "🔇 Silenciar";
         } else {
             bgMusic.pause();

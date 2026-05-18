@@ -68,7 +68,7 @@ window.onload = function () {
     btnEliminar.addEventListener("click", () => {
         for (const key in fichasColocadas) fichasDisponibles += fichasColocadas[key];
         document.querySelectorAll(".ficha").forEach(f => f.remove());
-        for (const k in Object.assign({}, fichasColocadas)) delete fichasColocadas[k];
+        for (var k in fichasColocadas) delete fichasColocadas[k];
         actualizarInfo();
         resultadoTexto.innerHTML = `<b>Número ganador:</b> —`;
     });
@@ -115,7 +115,8 @@ window.onload = function () {
 
             let ganancia = 0;
             let perdida  = 0;
-            const totalApostado = Object.values(fichasColocadas).reduce((s, v) => s + v, 0);
+            let totalApostado = 0;
+            for (var k in fichasColocadas) totalApostado += fichasColocadas[k];
 
             for (const apuesta in fichasColocadas) {
                 const cantidad = fichasColocadas[apuesta];
@@ -166,7 +167,8 @@ window.onload = function () {
 
             fichasDisponibles += ganancia;
             setFichas(fichasDisponibles);
-            ultimaApuesta = { ...fichasColocadas };
+            ultimaApuesta = {};
+            for (var k in fichasColocadas) ultimaApuesta[k] = fichasColocadas[k];
 
             if (totalApostado > 0) {
                 fetch(BASE + '/api/guardar_partida.php', {
@@ -198,7 +200,8 @@ window.onload = function () {
         document.querySelectorAll(".ficha").forEach(f => f.remove());
         for (const k in fichasColocadas) delete fichasColocadas[k];
 
-        const totalNecesario = Object.values(ultimaApuesta).reduce((s, v) => s + v, 0);
+        let totalNecesario = 0;
+        for (var k in ultimaApuesta) totalNecesario += ultimaApuesta[k];
         if (fichasDisponibles < totalNecesario) { alert("No tienes suficientes fichas para repetir la apuesta."); return; }
 
         for (const betKey in ultimaApuesta) {
