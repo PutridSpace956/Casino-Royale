@@ -18,7 +18,7 @@ $paquetes = [
     5000 => 39.99,
 ];
 
-if (!isset($paquetes[$fichas]) || abs($paquetes[$fichas] - $precio) > 0.01) {
+if (!isset($paquetes[$fichas]) || $paquetes[$fichas] != $precio) {
     echo json_encode(['ok' => false, 'error' => 'Paquete no válido.']);
     exit;
 }

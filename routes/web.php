@@ -15,6 +15,16 @@ function contarPalabras($texto) {
     return count(array_filter(explode(' ', trim($texto))));
 }
 
+function calcularEdad($fecha) {
+    $anio = (int)substr($fecha, 0, 4);
+    $mes  = (int)substr($fecha, 5, 2);
+    $dia  = (int)substr($fecha, 8, 2);
+    $edad = (int)date('Y') - $anio;
+    $diff = (int)date('n') - $mes;
+    if ($diff < 0 || ($diff === 0 && (int)date('j') < $dia)) $edad--;
+    return $edad;
+}
+
 $error   = '';
 $success = '';
 $page    = $_GET['page'] ?? 'home';
@@ -69,17 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($page, ['login', 'register
                 $error = 'El nombre debe tener al menos 2 caracteres.';
             } elseif (strlen($apellido) < 2) {
                 $error = 'El apellido debe tener al menos 2 caracteres.';
-            } elseif (strlen($username) < 3 || strlen($username) > 15) {
-                $error = 'El nombre de usuario debe tener entre 3 y 15 caracteres.';
-            } elseif (trim($username) === '') {
-                $error = 'El nombre de usuario no puede ser solo espacios.';
+            } elseif (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username)) {
+                $error = 'El nombre de usuario debe tener entre 3 y 20 caracteres (letras, números y guión bajo).';
             } elseif (!dniEsValido($dni)) {
                 $error = 'El DNI no es válido (formato: 8 dígitos + letra correcta).';
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = 'El email no es válido.';
             } elseif (strlen($password) < 6) {
                 $error = 'La contraseña debe tener al menos 6 caracteres.';
-            } elseif ((int)date('Y') - (int)substr($fecha_nacimiento, 0, 4) < 18) {
+            } elseif (calcularEdad($fecha_nacimiento) < 18) {
                 $error = 'Debes tener al menos 18 años para registrarte.';
             } else {
                 try {
@@ -118,8 +126,9 @@ if (in_array($page, $paginasProtegidas) && !isset($_SESSION['user_id'])) {
 
 // actualizar saldo desde BD antes de entrar al juego
 if (in_array($page, $paginasProtegidas) && isset($_SESSION['user_id'])) {
-    $db  = conectarBD();
-    $row = (new Usuario($db))->obtenerSaldo($_SESSION['user_id']);
+    $db          = conectarBD();
+    $usuarioTemp = new Usuario($db);
+    $row         = $usuarioTemp->obtenerSaldo($_SESSION['user_id']);
     if ($row) $_SESSION['user_saldo'] = (int)$row['saldo'];
 }
 

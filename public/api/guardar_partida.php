@@ -27,9 +27,11 @@ require_once __DIR__ . '/../../app/models/Partida.php';
 try {
     $db = conectarBD();
 
-    (new Usuario($db))->actualizarSaldo($_SESSION['user_id'], $saldo);
+    $usuarioModel = new Usuario($db);
+    $usuarioModel->actualizarSaldo($_SESSION['user_id'], $saldo);
     $_SESSION['user_saldo'] = $saldo;
-    (new Partida($db))->guardar($_SESSION['user_id'], $juego, $apuesta, $ganancia);
+    $partidaModel = new Partida($db);
+    $partidaModel->guardar($_SESSION['user_id'], $juego, $apuesta, $ganancia);
 
     echo json_encode(['ok' => true]);
 } catch (PDOException $e) {

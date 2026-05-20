@@ -15,7 +15,7 @@ function guardarPartidaBJ(ganancia) {
     fetch(BASE + '/api/guardar_partida.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia, saldo: chips })
+        body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia: ganancia, saldo: chips })
     }).catch(() => {});
 }
 
@@ -45,19 +45,24 @@ window.onload = function() {
 
     // los navegadores bloquean el audio hasta que el usuario interactua
     const music = document.getElementById("bg-music");
-    document.body.addEventListener("click", () => {
+    let musicStarted = false;
+    document.body.addEventListener("click", function() {
+        if (musicStarted) return;
+        musicStarted = true;
         music.volume = 0.3;
-        music.play().catch(() => {});
-    }, { once: true });
+        music.play().catch(function() {});
+    });
 };
 
 function buildDeck() {
     const values = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
     const suits  = ["C","D","H","S"];
     deck = [];
-    for (let s of suits)
-        for (let v of values)
-            deck.push(`${v}-${s}`);
+    for (let s of suits) {
+        for (let v of values) {
+            deck.push(v + "-" + s);
+        }
+    }
 }
 
 // mezcla la baraja con Fisher-Yates
@@ -286,9 +291,11 @@ function computeHandValue(cardsArray) {
 }
 
 function formatCardName(card) {
-    const suits = { C: "clubs", D: "diamonds", H: "hearts", S: "spades" };
-    const [value, suit] = card.split("-");
-    return `${value}_${suits[suit]}`;
+    const partes = card.split("-");
+    const valor  = partes[0];
+    const palo   = partes[1];
+    const palos  = { C: "clubs", D: "diamonds", H: "hearts", S: "spades" };
+    return valor + "_" + palos[palo];
 }
 
 function addCardAnimated(containerId, src) {

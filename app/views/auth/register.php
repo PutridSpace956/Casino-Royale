@@ -61,7 +61,7 @@
                 <label for="fecha_nacimiento">Fecha de nacimiento</label>
                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="auth-input"
                        required
-                       max="<?= date('Y-m-d', strtotime('-18 years')) ?>"
+                       max="<?= (date('Y') - 18) . date('-m-d') ?>"
                        value="<?= htmlspecialchars($_POST['fecha_nacimiento'] ?? '') ?>">
 
                 <button type="submit" class="btn-auth">Crear cuenta</button>
