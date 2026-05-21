@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comprar Fichas - Royal Casino</title>
-  <link rel="stylesheet" href="<?= BASE ?>/assets/css/fichas.css">
+  <link rel="stylesheet" href="<?= BASE ?>/assets/css/fichas.css?v=2">
 </head>
 <body>
 

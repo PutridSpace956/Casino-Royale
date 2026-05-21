@@ -22,7 +22,7 @@ $userName   = htmlspecialchars($_SESSION['user_nombre'] ?? '');
                     <div class="Logo user-info">
                         <img src="<?= BASE ?>/assets/img/usuario.png" alt="usuario" class="usuario">
                         <span class="user-name"><?= $userName ?></span>
-                        <span class="user-fichas">🪙 <?= number_format((int)($_SESSION['user_saldo'] ?? 0)) ?> fichas</span>
+                        <a href="?page=fichas" class="user-fichas">🪙 <?= number_format((int)($_SESSION['user_saldo'] ?? 0)) ?> fichas</a>
                         <a href="?page=logout" class="logout-link">Salir</a>
                     </div>
                 <?php else: ?>

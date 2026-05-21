@@ -20,8 +20,8 @@ function calcularEdad($fecha) {
     $mes  = (int)substr($fecha, 5, 2);
     $dia  = (int)substr($fecha, 8, 2);
     $edad = (int)date('Y') - $anio;
-    $diff = (int)date('n') - $mes;
-    if ($diff < 0 || ($diff === 0 && (int)date('j') < $dia)) $edad--;
+    $diff = (int)date('m') - $mes;
+    if ($diff < 0 || ($diff === 0 && (int)date('d') < $dia)) $edad--;
     return $edad;
 }
 
