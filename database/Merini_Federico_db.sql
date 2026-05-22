@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS Merini_Federico_db;
-USE Merini_Federico_db;
+
 
 CREATE TABLE usuario (
     id               INT AUTO_INCREMENT PRIMARY KEY,
