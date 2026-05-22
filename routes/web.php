@@ -1,8 +1,8 @@
 <?php
 
-require_once '../app/core/Database.php';
-require_once '../app/models/Usuario.php';
-require_once '../app/models/Partida.php';
+require_once __DIR__ . '/../app/core/Database.php';
+require_once __DIR__ . '/../app/models/Usuario.php';
+require_once __DIR__ . '/../app/models/Partida.php';
 
 // valida que el DNI tenga 8 numeros y la letra correcta (calculo mod 23)
 function dniEsValido($dni) {
@@ -133,12 +133,12 @@ if (in_array($page, $paginasProtegidas) && isset($_SESSION['user_id'])) {
 }
 
 switch ($page) {
-    case 'login':       require '../app/views/auth/login.php';              break;
-    case 'register':    require '../app/views/auth/register.php';           break;
-    case 'blackjack':   require '../app/views/games/blackjack/index.php';   break;
-    case 'caballos':    require '../app/views/games/caballos/index.php';    break;
-    case 'ruleta':      require '../app/views/games/ruleta/index.php';      break;
-    case 'tragaperras': require '../app/views/games/tragaperras/index.php'; break;
-    case 'fichas':      require '../app/views/fichas/index.php';            break;
-    default:            require '../app/views/home/index.php';
+    case 'login':       require __DIR__ . '/../app/views/auth/login.php';              break;
+    case 'register':    require __DIR__ . '/../app/views/auth/register.php';           break;
+    case 'blackjack':   require __DIR__ . '/../app/views/games/blackjack/index.php';   break;
+    case 'caballos':    require __DIR__ . '/../app/views/games/caballos/index.php';    break;
+    case 'ruleta':      require __DIR__ . '/../app/views/games/ruleta/index.php';      break;
+    case 'tragaperras': require __DIR__ . '/../app/views/games/tragaperras/index.php'; break;
+    case 'fichas':      require __DIR__ . '/../app/views/fichas/index.php';            break;
+    default:            require __DIR__ . '/../app/views/home/index.php';
 }
