@@ -3,4 +3,4 @@ session_start();
 
 define('BASE', '/ns/public');
 
-require '../routes/web.php';
+require __DIR__ . '/routes/web.php';
