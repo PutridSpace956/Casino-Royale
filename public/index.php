@@ -1,6 +1,6 @@
 <?php
 session_start();
 
-define('BASE', '/ns/public');
+define('BASE', getenv('RAILWAY_ENVIRONMENT') ? '' : '/ns/public');
 
-require __DIR__ . '/routes/web.php';
+require __DIR__ . '/../routes/web.php';
