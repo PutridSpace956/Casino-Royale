@@ -1,2 +1,2 @@
 [start]
-cmd = 'php -S 0.0.0.0:8080 -t /app/public /app/public/index.php'
+cmd = 'sh -c "echo === DIRECTORIO ACTUAL ===; pwd; echo === CONTENIDO ===; ls -la; echo === BUSCANDO PUBLIC ===; find / -name public -type d 2>/dev/null; sleep 5; php -v"'
