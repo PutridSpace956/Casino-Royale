@@ -99,7 +99,8 @@ window.onload = function () {
             girando = false;
 
             const numeroGanador = Math.floor(Math.random() * 37);
-            const colorGanador  = colores[numeroGanador];
+            const colorGanador = colores[numeroGanador];
+            console.log(numeroGanador, colorGanador);
 
             let ganancia = 0;
             let perdida  = 0;
@@ -162,7 +163,7 @@ window.onload = function () {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ juego: 'ruleta', apuesta: totalApostado, ganancia, saldo: fichasDisponibles })
-                }).catch(() => {});
+                }).catch(err => { console.warn('ruleta: error al guardar', err); });
             }
 
             document.querySelectorAll(".ficha").forEach(f => f.remove());
@@ -176,8 +177,17 @@ window.onload = function () {
     const bgMusic     = document.getElementById("bg-music");
     const toggleMusic = document.getElementById("toggle-music");
     toggleMusic.addEventListener("click", () => {
-        if (bgMusic.paused) { bgMusic.play().catch(() => {});  toggleMusic.textContent = "🔊 Música"; }
-        else                { bgMusic.pause(); toggleMusic.textContent = "🔇 Música"; }
+        if (bgMusic.paused) { bgMusic.play().catch(() => {}); toggleMusic.textContent = "🔇 Música"; }
+        else                { bgMusic.pause(); toggleMusic.textContent = "🔊 Música"; }
+    });
+    bgMusic.volume = 0.3;
+    bgMusic.play().then(() => {
+        toggleMusic.textContent = "🔇 Música";
+    }).catch(() => {
+        document.addEventListener("click", function startOnInteraction() {
+            bgMusic.play().then(() => { toggleMusic.textContent = "🔇 Música"; }).catch(() => {});
+            document.removeEventListener("click", startOnInteraction);
+        });
     });
 
     const btnRepetir = document.getElementById("repetir-apuesta");

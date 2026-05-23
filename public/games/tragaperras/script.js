@@ -62,6 +62,7 @@ lever.addEventListener("click", function() {
             clearInterval(intervals[2]);
             reels[2].classList.remove('spinning');
             reels[2].textContent = result.resultado[2];
+            console.log('resultado:', result.resultado, '| ganancia:', result.ganancia);
 
             if (saldoDisplay) saldoDisplay.textContent = result.saldo;
 
@@ -104,5 +105,14 @@ if (toggleBtn && bgMusic) {
             bgMusic.pause();
             toggleBtn.textContent = "🔊 Música";
         }
+    });
+    bgMusic.volume = 0.3;
+    bgMusic.play().then(function() {
+        toggleBtn.textContent = "🔇 Silenciar";
+    }).catch(function() {
+        document.addEventListener("click", function startOnInteraction() {
+            bgMusic.play().then(function() { toggleBtn.textContent = "🔇 Silenciar"; }).catch(function() {});
+            document.removeEventListener("click", startOnInteraction);
+        });
     });
 }

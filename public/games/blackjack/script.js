@@ -16,7 +16,7 @@ function guardarPartidaBJ(ganancia) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia: ganancia, saldo: chips })
-    }).catch(() => {});
+    }).catch(() => { console.warn('no se pudo guardar la partida'); });
 }
 
 window.onload = function() {
@@ -30,14 +30,17 @@ window.onload = function() {
     shuffleDeck();
     updateChips();
 
-    // los navegadores bloquean el audio hasta que el usuario interactua
-    const music = document.getElementById("bg-music");
-    let musicStarted = false;
-    document.body.addEventListener("click", function() {
-        if (musicStarted) return;
-        musicStarted = true;
-        music.volume = 0.3;
-        music.play().catch(function() {});
+    const music    = document.getElementById("bg-music");
+    const musicBtn = document.getElementById("toggle-music");
+    music.volume = 0.3;
+    music.play().then(function() {
+        musicBtn.innerText = "🔇 Silenciar";
+    }).catch(function() {
+        function startOnInteraction() {
+            music.play().then(function() { musicBtn.innerText = "🔇 Silenciar"; }).catch(function() {});
+            document.body.removeEventListener("click", startOnInteraction);
+        }
+        document.body.addEventListener("click", startOnInteraction);
     });
 };
 
@@ -100,16 +103,16 @@ function startGame() {
     // primera carta del dealer boca abajo
     hiddenCard = deck.pop();
     dealerCards.push(hiddenCard);
-    addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/back.png");
+    addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/back.png", 0);
 
     const dealerVisible = deck.pop();
     dealerCards.push(dealerVisible);
-    addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/" + formatCardName(dealerVisible) + ".png");
+    addCardAnimated("dealer-cards", BASE + "/games/blackjack/cartas/" + formatCardName(dealerVisible) + ".png", 300);
 
     for (let i = 0; i < 2; i++) {
         const c = deck.pop();
         playerCards.push(c);
-        addCardAnimated("player-cards", BASE + "/games/blackjack/cartas/" + formatCardName(c) + ".png");
+        addCardAnimated("player-cards", BASE + "/games/blackjack/cartas/" + formatCardName(c) + ".png", (i + 2) * 300);
     }
 
     const playerVal = computeHandValue(playerCards);
@@ -198,6 +201,7 @@ function revealDealerOnly() {
     mostrarResultado();
 }
 
+// TODO: añadir opcion de split
 function doblar() {
     if (!canHit || currentBet === 0) return;
     if (chips < currentBet) {
@@ -229,6 +233,7 @@ function mostrarResultado() {
     if (chips <= 0) checkGameOver();
 
     const gananciaParaDB = Math.max(0, chips - saldoAntesDeBet + apuestaDeBD);
+    console.log('chips:', chips, '| ganancia:', gananciaParaDB);
     guardarPartidaBJ(gananciaParaDB);
 
     document.getElementById("Apostar").disabled  = false;
@@ -282,10 +287,10 @@ function formatCardName(card) {
     return valor + "_" + palos[palo];
 }
 
-function addCardAnimated(containerId, src) {
+function addCardAnimated(containerId, src, delay) {
     const img = document.createElement("img");
     img.src = src;
-    img.style.animation = "dealIn 0.6s ease forwards";
+    if (delay) img.style.animationDelay = delay + 'ms';
     document.getElementById(containerId).appendChild(img);
 }
 

@@ -8,15 +8,16 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$data     = json_decode(file_get_contents('php://input'), true);
-$juego    = trim($data['juego']    ?? '');
-$apuesta  = intval($data['apuesta']  ?? 0);
+$data = json_decode(file_get_contents('php://input'), true);
+$juego = trim($data['juego'] ?? '');
+$apuesta = intval($data['apuesta'] ?? 0);
 $ganancia = intval($data['ganancia'] ?? 0);
-$saldo    = intval($data['saldo']    ?? -1);
+$saldo = intval($data['saldo'] ?? -1);
 
+// juego tiene que ser uno de los dos y los numeros no pueden ser negativos
 if (!in_array($juego, ['blackjack', 'ruleta']) || $apuesta < 0 || $ganancia < 0 || $saldo < 0) {
     http_response_code(400);
-    echo json_encode(['error' => 'Datos inválidos']);
+    echo json_encode(['error' => 'faltan datos o el juego no existe']);
     exit;
 }
 

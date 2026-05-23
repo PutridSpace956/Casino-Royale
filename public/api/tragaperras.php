@@ -22,7 +22,7 @@ require_once __DIR__ . '/../../app/models/Usuario.php';
 require_once __DIR__ . '/../../app/models/Partida.php';
 
 try {
-    $db           = conectarBD();
+    $db = conectarBD();
     $usuarioModel = new Usuario($db);
     $partidaModel = new Partida($db);
 
