@@ -1,5 +1,5 @@
 
-CASINO ROYALE MVC - VERSION LIMPIA
+Royal Casino MVC - VERSION LIMPIA
 
 Cambios realizados:
 - Eliminada carpeta original redundante

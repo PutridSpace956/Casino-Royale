@@ -1,4 +1,4 @@
-
+//Debido al uso de railway, no es necesario crear la base de datos, ya que se crea automáticamente al conectar con el servicio. Por lo tanto, solo se incluyen las tablas necesarias para la aplicación.
 
 CREATE TABLE usuario (
     id               INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,2 +1,2 @@
-# Casino-Royale
+# Royal Casino
 TFG Casino Online
