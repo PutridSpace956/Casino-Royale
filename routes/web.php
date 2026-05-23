@@ -3,6 +3,9 @@
 require_once __DIR__ . '/../app/core/Database.php';
 require_once __DIR__ . '/../app/models/Usuario.php';
 require_once __DIR__ . '/../app/models/Partida.php';
+require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../app/controllers/GameController.php';
+require_once __DIR__ . '/../app/controllers/HomeController.php';
 
 // valida que el DNI tenga 8 numeros y la letra correcta (calculo mod 23)
 function dniEsValido($dni) {
@@ -126,19 +129,27 @@ if (in_array($page, $paginasProtegidas) && !isset($_SESSION['user_id'])) {
 
 // actualizar saldo desde BD antes de entrar al juego
 if (in_array($page, $paginasProtegidas) && isset($_SESSION['user_id'])) {
-    $db          = conectarBD();
-    $usuarioTemp = new Usuario($db);
-    $row         = $usuarioTemp->obtenerSaldo($_SESSION['user_id']);
-    if ($row) $_SESSION['user_saldo'] = (int)$row['saldo'];
+    try {
+        $db          = conectarBD();
+        $usuarioTemp = new Usuario($db);
+        $row         = $usuarioTemp->obtenerSaldo($_SESSION['user_id']);
+        if ($row) $_SESSION['user_saldo'] = (int)$row['saldo'];
+    } catch (PDOException $e) {
+        // si la BD no responde se usa el saldo de sesion
+    }
 }
 
+$auth = new AuthController();
+$game = new GameController();
+$home = new HomeController();
+
 switch ($page) {
-    case 'login':       require __DIR__ . '/../app/views/auth/login.php';              break;
-    case 'register':    require __DIR__ . '/../app/views/auth/register.php';           break;
-    case 'blackjack':   require __DIR__ . '/../app/views/games/blackjack/index.php';   break;
-    case 'caballos':    require __DIR__ . '/../app/views/games/caballos/index.php';    break;
-    case 'ruleta':      require __DIR__ . '/../app/views/games/ruleta/index.php';      break;
-    case 'tragaperras': require __DIR__ . '/../app/views/games/tragaperras/index.php'; break;
-    case 'fichas':      require __DIR__ . '/../app/views/fichas/index.php';            break;
-    default:            require __DIR__ . '/../app/views/home/index.php';
+    case 'login':       $auth->login();        break;
+    case 'register':    $auth->register();     break;
+    case 'blackjack':   $game->blackjack();    break;
+    case 'caballos':    $game->caballos();     break;
+    case 'ruleta':      $game->ruleta();       break;
+    case 'tragaperras': $game->tragaperras();  break;
+    case 'fichas':      $game->fichas();       break;
+    default:            $home->index();
 }

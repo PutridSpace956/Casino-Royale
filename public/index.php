@@ -9,9 +9,17 @@ if (php_sapi_name() === 'cli-server') {
     }
 }
 
+$isRailway = (bool)getenv('RAILWAY_PUBLIC_DOMAIN');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => $isRailway,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 session_start();
 
-// BASE: ruta base de la app. En local (XAMPP) es /ns/public, en Railway es vacío.
-define('BASE', getenv('RAILWAY_PUBLIC_DOMAIN') ? '' : '/Casino-Royale/public');
+// BASE: ruta base de la app. En local (XAMPP) es /Casino-Royale/public, en Railway es vacío.
+define('BASE', $isRailway ? '' : '/Casino-Royale/public');
 
 require __DIR__ . '/../routes/web.php';

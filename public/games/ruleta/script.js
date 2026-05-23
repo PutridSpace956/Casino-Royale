@@ -163,7 +163,16 @@ window.onload = function () {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ juego: 'ruleta', apuesta: totalApostado, ganancia, saldo: fichasDisponibles })
-                }).catch(err => { console.warn('ruleta: error al guardar', err); });
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) resultadoTexto.innerHTML += `<br><small>⚠️ ${data.error}</small>`;
+                })
+                .catch(err => {
+                    console.warn('ruleta: error al guardar', err);
+                    resultadoTexto.innerHTML += '<br><small>⚠️ Error al guardar. Recarga para sincronizar tu saldo.</small>';
+                    btnGirar.disabled = true;
+                });
             }
 
             document.querySelectorAll(".ficha").forEach(f => f.remove());

@@ -16,7 +16,18 @@ function guardarPartidaBJ(ganancia) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia: ganancia, saldo: chips })
-    }).catch(() => { console.warn('no se pudo guardar la partida'); });
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.error) {
+            document.getElementById("Resultado").innerText += ' — ⚠️ ' + data.error;
+        }
+    })
+    .catch(function() {
+        console.warn('no se pudo guardar la partida');
+        document.getElementById("Resultado").innerText = '⚠️ Error al guardar partida. Recarga para sincronizar tu saldo.';
+        document.getElementById("Apostar").disabled = true;
+    });
 }
 
 window.onload = function() {

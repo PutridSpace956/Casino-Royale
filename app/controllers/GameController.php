@@ -2,18 +2,22 @@
 class GameController {
 
     public function blackjack() {
-        require '../app/views/games/blackjack/index.php';
-    }
-
-    public function caballos() {
-        require '../app/views/games/caballos/index.php';
+        require __DIR__ . '/../views/games/blackjack/index.php';
     }
 
     public function ruleta() {
-        require '../app/views/games/ruleta/index.php';
+        require __DIR__ . '/../views/games/ruleta/index.php';
     }
 
     public function tragaperras() {
-        require '../app/views/games/tragaperras/index.php';
+        require __DIR__ . '/../views/games/tragaperras/index.php';
+    }
+
+    public function caballos() {
+        require __DIR__ . '/../views/games/caballos/index.php';
+    }
+
+    public function fichas() {
+        require __DIR__ . '/../views/fichas/index.php';
     }
 }
