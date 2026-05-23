@@ -12,6 +12,6 @@ if (php_sapi_name() === 'cli-server') {
 session_start();
 
 // BASE: ruta base de la app. En local (XAMPP) es /ns/public, en Railway es vacío.
-define('BASE', getenv('RAILWAY_PUBLIC_DOMAIN') ? '' : '/ns/public');
+define('BASE', getenv('RAILWAY_PUBLIC_DOMAIN') ? '' : '/Casino-Royale/public');
 
 require __DIR__ . '/../routes/web.php';
