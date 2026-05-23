@@ -9,7 +9,7 @@
 <body>
   <script>
     const BASE = '<?= BASE ?>';
-    localStorage.setItem('fichas', <?= (int)($_SESSION['user_saldo'] ?? 1000) ?>);
+    const SALDO_INICIAL = <?= (int)($_SESSION['user_saldo'] ?? 1000) ?>;
   </script>
   <script src="<?= BASE ?>/games/ruleta/script.js?v=3"></script>
   <header>

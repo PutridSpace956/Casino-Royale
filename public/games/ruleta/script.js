@@ -1,15 +1,5 @@
-function getFichas() {
-    let fichas = parseInt(localStorage.getItem("fichas"));
-    if (isNaN(fichas)) { fichas = 50; localStorage.setItem("fichas", fichas); }
-    return fichas;
-}
-
-function setFichas(valor) {
-    localStorage.setItem("fichas", valor);
-}
-
 window.onload = function () {
-    let fichasDisponibles = getFichas();
+    let fichasDisponibles = typeof SALDO_INICIAL !== 'undefined' ? SALDO_INICIAL : 50;
     let apuestaActual = 1;
     const fichasColocadas = {};
     let ultimaApuesta = {};
@@ -56,7 +46,6 @@ window.onload = function () {
         barraApuesta.value      = apuestaActual;
         spanFichas.textContent  = fichasDisponibles;
         spanApuesta.textContent = apuestaActual;
-        setFichas(fichasDisponibles);
     }
     actualizarInfo();
 
@@ -81,7 +70,6 @@ window.onload = function () {
         if (fichasDisponibles < apuestaActual) { alert("No tienes suficientes fichas"); return; }
 
         fichasDisponibles -= apuestaActual;
-        setFichas(fichasDisponibles);
         fichasColocadas[betKey] = (fichasColocadas[betKey] || 0) + apuestaActual;
 
         let ficha = celda.querySelector(".ficha");
@@ -166,7 +154,6 @@ window.onload = function () {
             }
 
             fichasDisponibles += ganancia;
-            setFichas(fichasDisponibles);
             ultimaApuesta = {};
             for (var k in fichasColocadas) ultimaApuesta[k] = fichasColocadas[k];
 
@@ -189,7 +176,7 @@ window.onload = function () {
     const bgMusic     = document.getElementById("bg-music");
     const toggleMusic = document.getElementById("toggle-music");
     toggleMusic.addEventListener("click", () => {
-        if (bgMusic.paused) { bgMusic.play().catch(() => {});  toggleMusic.textContent = "🔊 Música (ON)"; }
+        if (bgMusic.paused) { bgMusic.play().catch(() => {});  toggleMusic.textContent = "🔊 Música"; }
         else                { bgMusic.pause(); toggleMusic.textContent = "🔇 Música"; }
     });
 

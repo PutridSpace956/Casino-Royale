@@ -4,7 +4,7 @@ let playerCards = [];
 let hiddenCard  = null;
 let canHit      = false;
 
-let chips      = getFichas();
+let chips      = typeof SALDO_INICIAL !== 'undefined' ? SALDO_INICIAL : 50;
 let currentBet = 0;
 
 let saldoAntesDeBet = 0;
@@ -17,19 +17,6 @@ function guardarPartidaBJ(ganancia) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ juego: 'blackjack', apuesta: apuestaDeBD, ganancia: ganancia, saldo: chips })
     }).catch(() => {});
-}
-
-function getFichas() {
-    let fichas = parseInt(localStorage.getItem("fichas"));
-    if (isNaN(fichas)) {
-        fichas = 50;
-        localStorage.setItem("fichas", fichas);
-    }
-    return fichas;
-}
-
-function setFichas(valor) {
-    localStorage.setItem("fichas", valor);
 }
 
 window.onload = function() {
@@ -84,7 +71,6 @@ function apostar() {
     apuestaDeBD     = betValue;
     currentBet      = betValue;
     chips          -= currentBet;
-    setFichas(chips);
     updateChips();
 
     if (chips <= 0) checkGameOver();
@@ -146,7 +132,6 @@ function startGame() {
         canHit = false;
         document.getElementById("Resultado").innerText = "¡Blackjack!";
         chips += currentBet * 2;
-        setFichas(chips);
         updateChips();
         document.getElementById("Apostar").disabled = false;
         guardarPartidaBJ(apuestaDeBD * 2);
@@ -221,7 +206,6 @@ function doblar() {
     }
 
     chips      -= currentBet;
-    setFichas(chips);
     currentBet *= 2;
     updateChips();
 
@@ -255,7 +239,7 @@ function mostrarResultado() {
 
 function evaluarMano(playerFinal, dealerFinal, handCards) {
     if (handCards && handCards.length === 2 && playerFinal === 21) {
-        chips += currentBet * 2; setFichas(chips);
+        chips += currentBet * 2;
         return "¡Blackjack! Ganaste el doble.";
     }
     if (dealerFinal === 21 && dealerCards.length === 2) {
@@ -264,13 +248,13 @@ function evaluarMano(playerFinal, dealerFinal, handCards) {
     if (playerFinal > 21) {
         return "Te pasaste. Pierdes.";
     } else if (dealerFinal > 21) {
-        chips += currentBet * 2; setFichas(chips);
+        chips += currentBet * 2;
         return "Dealer se pasó. ¡Ganas!";
     } else if (playerFinal > dealerFinal) {
-        chips += currentBet * 2; setFichas(chips);
+        chips += currentBet * 2;
         return "¡Ganaste!";
     } else if (playerFinal === dealerFinal) {
-        chips += currentBet; setFichas(chips);
+        chips += currentBet;
         return "Empate.";
     } else {
         return "Pierdes.";
@@ -306,7 +290,6 @@ function addCardAnimated(containerId, src) {
 }
 
 function updateChips() {
-    setFichas(chips);
     document.getElementById("chips").innerText = chips;
 }
 
